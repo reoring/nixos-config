@@ -20,6 +20,11 @@
   ".wezterm.lua" = {
     text = builtins.readFile ../shared/config/wezterm/.wezterm.lua;
   };
+
+  # Setup aerospace
+  ".aerospace.toml" = {
+    text = builtins.readFile ../shared/config/aerospace/aerospace.toml;
+  };
   
   # Setup tabby
   "Library/Application Support/tabby/config.yaml" = {
