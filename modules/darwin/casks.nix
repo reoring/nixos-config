@@ -63,4 +63,6 @@ _:
   "linear-linear"
   
   "figma"
+
+  "vmware-fusion"
 ]
