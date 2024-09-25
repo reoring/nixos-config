@@ -61,4 +61,6 @@ _:
   "raindropio"
 
   "linear-linear"
+  
+  "figma"
 ]
