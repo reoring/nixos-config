@@ -88,7 +88,8 @@ end
 
 return {
   font = wezterm.font_with_fallback {
-    "Comic Code",
+    "Comic Mono",
+    -- "Comic Code",
     "FiraCode Nerd Font",
   },
 
