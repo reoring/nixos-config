@@ -339,11 +339,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1727157959,
-        "narHash": "sha256-ieeH+jx8V83fqZvreQ0BCijm31IAUY20QwVHkaPGjrQ=",
+        "lastModified": 1727240910,
+        "narHash": "sha256-yFgqgK3l6q6GxiD154Vkc6AB31t8FID8QgbNf6dwHUA=",
         "ref": "refs/heads/main",
-        "rev": "a03e33cebd62eb49125a9c40255524e610d87fd5",
-        "revCount": 1,
+        "rev": "bb23d17e73284466a8d05a63fe798f3fafa871d4",
+        "revCount": 2,
         "type": "git",
         "url": "ssh://git@github.com/reoring/nix-secrets.git"
       },
