@@ -15,6 +15,9 @@ with pkgs; [
   sqlite
   wget
   zip
+  fish
+  zsh
+  neovim
 
   # Encryption and security tools
   age
@@ -58,4 +61,21 @@ with pkgs; [
   # Python packages
   python39
   python39Packages.virtualenv # globally install virtualenv
+  python39Packages.pip
+
+  # Keyboards
+  goku
+
+  # Kubernetes
+  k9s
+  kind
+  minikube
+  kubectl
+  kubectx
+
+  # AWS
+  awscli
+
+  # LLM
+  ollama
 ]

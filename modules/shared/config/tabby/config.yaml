@@ -1,0 +1,257 @@
+version: 7
+profiles:
+  - type: local
+    name: atdev-local
+    icon: fas fa-terminal
+    options:
+      command: ssh
+      env: {}
+      args:
+        - atdev-local2
+      cwd: /workspaces/
+    id: local:custom:fish:93c947c3-4e92-460f-b02b-3f94c8e064a2
+groups: []
+configSync:
+  parts: {}
+hotkeys:
+  toggle-window:
+    - Ctrl-⌘-I
+  copy-current-path: []
+  ctrl-c:
+    - Ctrl-C
+  copy:
+    - ⌘-C
+  paste:
+    - ⌘-V
+  clear:
+    - ⌘-K
+  select-all:
+    - ⌘-A
+  zoom-in:
+    - ⌘-=
+    - ⌘-Shift-=
+  zoom-out:
+    - ⌘--
+    - ⌘-Shift--
+  reset-zoom:
+    - ⌘-0
+  home:
+    - ⌘-Left
+    - Home
+  end:
+    - ⌘-Right
+    - End
+  previous-word:
+    - ⌥-Left
+  next-word:
+    - ⌥-Right
+  delete-previous-word:
+    - ⌥-Backspace
+  delete-line:
+    - ⌘-Backspace
+  delete-next-word:
+    - ⌥-Delete
+  search:
+    - ⌘-F
+  pane-focus-all:
+    - ⌘-Shift-I
+  focus-all-tabs:
+    - ⌘-⌥-Shift-I
+  scroll-to-top:
+    - Shift-PageUp
+  scroll-up:
+    - ⌥-PageUp
+  scroll-down:
+    - ⌥-PageDown
+  scroll-to-bottom:
+    - Shift-PageDown
+  restart-telnet-session: []
+  restart-ssh-session: []
+  launch-winscp: []
+  settings-tab: {}
+  settings:
+    - ⌘-,
+  serial:
+    - Alt-K
+  restart-serial-session: []
+  new-tab:
+    - ⌘-T
+  new-window:
+    - ⌘-N
+  profile:
+    ssh:template: []
+  profile-selectors: {}
+  toggle-fullscreen:
+    - Ctrl+⌘+F
+  close-tab:
+    - ⌘-W
+  reopen-tab:
+    - ⌘-Shift-T
+  toggle-last-tab: []
+  rename-tab:
+    - ⌘-R
+  next-tab:
+    - Ctrl-Tab
+  previous-tab:
+    - Ctrl-Shift-Tab
+  move-tab-left:
+    - ⌘-Shift-Left
+  move-tab-right:
+    - ⌘-Shift-Right
+  rearrange-panes:
+    - Ctrl-Shift
+  tab-2:
+    - ⌘-2
+  tab-3:
+    - ⌘-3
+  tab-4:
+    - ⌘-4
+  tab-5:
+    - ⌘-5
+  tab-6:
+    - ⌘-6
+  tab-7:
+    - ⌘-7
+  tab-8:
+    - ⌘-8
+  tab-9:
+    - ⌘-9
+  tab-10: []
+  duplicate-tab: []
+  restart-tab: []
+  reconnect-tab: []
+  disconnect-tab: []
+  explode-tab:
+    - ⌘-Shift-.
+  combine-tabs:
+    - ⌘-Shift-,
+  tab-11: []
+  tab-12: []
+  tab-13: []
+  tab-14: []
+  tab-15: []
+  tab-16: []
+  tab-17: []
+  tab-18: []
+  tab-19: []
+  tab-20: []
+  split-right:
+    - ⌘-Shift-D
+  split-bottom:
+    - ⌘-D
+  split-left: []
+  split-top: []
+  pane-nav-right:
+    - ⌘-⌥-Right
+  pane-nav-down:
+    - ⌘-⌥-Down
+  pane-nav-up:
+    - ⌘-⌥-Up
+  pane-nav-left:
+    - ⌘-⌥-Left
+  pane-nav-previous:
+    - ⌘-⌥-[
+  pane-nav-next:
+    - ⌘-⌥-]
+  pane-nav-1: []
+  pane-nav-2: []
+  pane-nav-3: []
+  pane-nav-4: []
+  pane-nav-5: []
+  pane-nav-6: []
+  pane-nav-7: []
+  pane-nav-8: []
+  pane-nav-9: []
+  pane-maximize:
+    - ⌘-⌥-Enter
+  close-pane:
+    - ⌘-Shift-W
+  pane-increase-vertical: []
+  pane-decrease-vertical: []
+  pane-increase-horizontal: []
+  pane-decrease-horizontal: []
+  profile-selector:
+    - ⌘-E
+  switch-profile:
+    - ⌘-Shift-E
+  command-selector:
+    - ⌘-Shift-P
+  tab-1:
+    - ⌘-1
+terminal:
+  searchOptions: {}
+  colorScheme:
+    name: base2tone-pool-dark
+    foreground: '#9a90a7'
+    background: '#2a2433'
+    cursor: '#cf504a'
+    colors:
+      - '#2a2433'
+      - '#aa75f5'
+      - '#f87972'
+      - '#ffb6b3'
+      - '#b886fd'
+      - '#f87972'
+      - '#c7a0fe'
+      - '#9a90a7'
+      - '#635775'
+      - '#fc8983'
+      - '#372f42'
+      - '#574b68'
+      - '#706383'
+      - '#e4d2fe'
+      - '#f36f68'
+      - '#f3ebff'
+  customColorSchemes: []
+  lightColorScheme:
+    name: base2tone-pool-dark
+    foreground: '#9a90a7'
+    background: '#2a2433'
+    cursor: '#cf504a'
+    colors:
+      - '#2a2433'
+      - '#aa75f5'
+      - '#f87972'
+      - '#ffb6b3'
+      - '#b886fd'
+      - '#f87972'
+      - '#c7a0fe'
+      - '#9a90a7'
+      - '#635775'
+      - '#fc8983'
+      - '#372f42'
+      - '#574b68'
+      - '#706383'
+      - '#e4d2fe'
+      - '#f36f68'
+      - '#f3ebff'
+  font: Comic Code, FiraCode Nerd Font
+  altIsMeta: true
+  profile: local:Usersreoring.nix-profilebinfish
+  hideTabIndex: true
+  showTabProfileIcon: true
+ssh:
+  knownHosts:
+    - host: atdev-local
+      port: '2222'
+      type: ecdsa-sha2-nistp256
+      digest: r+0N9ogPp77UrqJvwRQfa3RaklyOqPuvQuWbtvUbmZc=
+clickableLinks: {}
+accessibility:
+  animations: false
+appearance:
+  tabsLocation: left
+  dock: top
+  dockFill: 0.68
+  vibrancy: true
+  opacity: 0.99
+hacks: {}
+providerBlacklist: []
+commandBlacklist: []
+profileDefaults:
+  ssh:
+    disableDynamicTitle: true
+profileBlacklist: []
+enableWelcomeTab: false
+pluginBlacklist: []
+docker: {}

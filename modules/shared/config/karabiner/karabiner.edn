@@ -1,0 +1,74 @@
+{
+  :simlayers {
+    :space-layer {:key :spacebar}
+  }
+  :main [{
+    :des "Space layer"
+    :rules [:space-layer
+      [:q :1]
+      [:w :2]
+      [:e :3]
+      [:r :4]
+      [:t :5]
+      [:y :6]
+      [:u :7]
+      [:i :8]
+      [:o :9]
+      [:p :0]
+      [:a :!S1]    ;; !
+      [:s :!S2]    ;; @
+      [:d :!S3]    ;; #
+      [:f :!S4]    ;; $
+      [:g :!S5]    ;; %
+      [:h :!S6]    ;; ^
+      [:j :!S7]    ;; &
+      [:k :!S8]    ;; *
+      [:l :!S9]    ;; (
+      [:z :!Sbackslash]     ;; |
+      [:x :slash]           ;; /
+      [:c :!Speriod]        ;; >
+      [:v :!Scomma]         ;; <
+      [:b :hyphen]          ;; -
+      [:n :!Shyphen]        ;; _
+      [:m :equal_sign]      ;; =
+      [:comma :!Sequal_sign] ;; +
+      [:period :!Sopen_bracket] ;; {
+      [:slash :!Sclose_bracket] ;; }
+    ]
+  },
+  {
+    :des "built-in keyboard change"
+    :rules [
+      [:##caps_lock :left_control]
+      [:##backslash :backslash]  ;; バックスラッシュを元の機能に戻す
+      [:##delete_or_backspace :delete_or_backspace]  ;; バックスペースを元の機能に戻す
+      [:##grave_accent_and_tilde :grave_accent_and_tilde]  ;; チルダキーを元の機能に戻す
+      ;; disable unnecessary keys
+      [:##escape :vk_none]
+      [:##f1 :vk_none]
+      [:##f2 :vk_none]
+      [:##f3 :vk_none]
+      [:##f4 :vk_none]
+      [:##f5 :vk_none]
+      [:##f6 :vk_none]
+      [:##f7 :vk_none]
+      [:##f8 :vk_none]
+      [:##f9 :vk_none]
+      [:##f10 :vk_none]
+      [:##f11 :vk_none]
+      [:##f12 :vk_none]
+    ]
+  },
+  {
+    :des "Semicolon to Control on hold, Semicolon on tap"
+    :rules [
+      [:##semicolon :left_control nil {:alone :semicolon}]
+    ]
+  },
+  {
+    :des "Right Command to Command + Control"
+    :rules [
+      [:right_command {:key :right_command :modi :right_control} nil {:alone [{:key :right_command :modi :right_control}]}]
+    ]
+  }]
+}
