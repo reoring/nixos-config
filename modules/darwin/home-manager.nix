@@ -56,7 +56,7 @@ in
   # Enable home-manager
   home-manager = {
     useGlobalPkgs = true;
-    backupFileExtension = "backup";  # Added this line
+    backupFileExtension = "backup";
     users.${user} = { pkgs, config, lib, ... }:{
       home = {
         enableNixpkgsReleaseCheck = false;
