@@ -47,9 +47,10 @@ _:
   # Input Methods
   "aquaskk"
 
-  # You must install virtualbox manually for now
+  # Virtual Machine
   # "virtualbox"
   "vagrant"
+  "vmware-fusion"
 
   "font-meslo-lg-nerd-font"
 
@@ -61,8 +62,5 @@ _:
   "raindropio"
 
   "linear-linear"
-  
   "figma"
-
-  "vmware-fusion"
 ]
