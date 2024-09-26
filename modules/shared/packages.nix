@@ -72,6 +72,7 @@ with pkgs; [
   minikube
   kubectl
   kubectx
+  upbound
 
   # AWS
   awscli
