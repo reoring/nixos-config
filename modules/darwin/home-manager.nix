@@ -78,6 +78,7 @@ in
 
   # Fully declarative dock using the latest from Nix Store
   local.dock.enable = true;
+  local.dock.autohide = true;  # Enable auto-hide for the dock
   local.dock.entries = [
     { path = "/Applications/Obsidian.app/"; }
     { path = "/Applications/Slack.app/"; }
