@@ -20,6 +20,7 @@ _:
   "cleanshot"
   "bettertouchtool"
   "one-switch"
+  "app-tamer"
 
   # Entertainment Tools
   "vlc"
@@ -63,4 +64,7 @@ _:
 
   "linear-linear"
   "figma"
+
+  # LLM
+  "lm-studio"
 ]
