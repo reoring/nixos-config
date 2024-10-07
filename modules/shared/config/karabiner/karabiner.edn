@@ -44,7 +44,6 @@
       [:##delete_or_backspace :delete_or_backspace]  ;; バックスペースを元の機能に戻す
       [:##grave_accent_and_tilde :grave_accent_and_tilde]  ;; チルダキーを元の機能に戻す
       ;; disable unnecessary keys
-      [:##escape :vk_none]
       [:##f1 :vk_none]
       [:##f2 :vk_none]
       [:##f3 :vk_none]

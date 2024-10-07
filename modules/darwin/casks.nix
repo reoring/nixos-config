@@ -17,10 +17,12 @@ _:
 
   # Utility Tools
   "syncthing"
+  "bartender"
   "cleanshot"
   "bettertouchtool"
   "one-switch"
   "app-tamer"
+  "aldente"
 
   # Entertainment Tools
   "vlc"

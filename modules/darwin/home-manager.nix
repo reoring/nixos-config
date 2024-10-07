@@ -49,7 +49,10 @@ in
     # This message is safe to ignore. (https://github.com/dustinlyons/nixos-config/issues/83)
     masApps = {
       # "1password" = 1333542190;
+      # "reeder" = 2114932107;
+      "reeder-classic" = 1529448980;
       "wireguard" = 1451685025;
+      "amphetamine" = 937984704;
     };
   };
 

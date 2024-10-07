@@ -28,6 +28,7 @@ with pkgs; [
   # Cloud-related tools and SDKs
   docker
   docker-compose
+  dive
 
   # Media-related packages
   emacs-all-the-icons-fonts
@@ -44,6 +45,9 @@ with pkgs; [
   nodePackages.npm # globally install npm
   nodePackages.prettier
   nodejs
+
+  # Go
+  go
 
   # Text and terminal utilities
   htop
@@ -73,6 +77,7 @@ with pkgs; [
   kubectl
   kubectx
   upbound
+  eksctl
 
   # AWS
   awscli
