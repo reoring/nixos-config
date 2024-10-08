@@ -53,6 +53,7 @@ in
       "reeder-classic" = 1529448980;
       "wireguard" = 1451685025;
       "amphetamine" = 937984704;
+      "macdroid" = 1476545828;
     };
   };
 
