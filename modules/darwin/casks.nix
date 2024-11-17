@@ -23,6 +23,10 @@ _:
   "one-switch"
   "app-tamer"
   "aldente"
+  "kindle"
+  "betterdisplay"
+
+  "google-drive"
 
   # Entertainment Tools
   "vlc"
@@ -69,4 +73,5 @@ _:
 
   # LLM
   "lm-studio"
+  "chatgpt"
 ]

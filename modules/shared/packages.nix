@@ -18,6 +18,8 @@ with pkgs; [
   fish
   zsh
   neovim
+  localsend
+  gh
 
   # Encryption and security tools
   age
@@ -72,16 +74,25 @@ with pkgs; [
 
   # Kubernetes
   k9s
+  kubernetes-helm
+  clusterctl
   kind
   minikube
   kubectl
   kubectx
   upbound
   eksctl
+  kubebuilder
+
+  flyctl
 
   # AWS
   awscli
 
   # LLM
   ollama
+  aider-chat
+
+  # Rust things
+  rustup
 ]
