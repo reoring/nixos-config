@@ -25,6 +25,7 @@ _:
   "aldente"
   "kindle"
   "betterdisplay"
+  "coconutbattery"
 
   "google-drive"
 
@@ -43,7 +44,7 @@ _:
   "karabiner-elements"
 
   # WindowManager
-  "nikitabobko/tap/aerospace"
+  # "nikitabobko/tap/aerospace"
 
   # Password Management
   "1password"
@@ -55,7 +56,7 @@ _:
   "aquaskk"
 
   # Virtual Machine
-  # "virtualbox"
+  "virtualbox"
   "vagrant"
   "vmware-fusion"
 
@@ -63,8 +64,8 @@ _:
 
   "spotify"
 
-  "yubico-authenticator"
-  "yubico-yubikey-manager"
+  # "yubico-authenticator"
+  # "yubico-yubikey-manager"
 
   "raindropio"
 
@@ -74,4 +75,5 @@ _:
   # LLM
   "lm-studio"
   "chatgpt"
+  "claude"
 ]

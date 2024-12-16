@@ -20,6 +20,7 @@ with pkgs; [
   neovim
   localsend
   gh
+  uv
 
   # Encryption and security tools
   age
@@ -65,17 +66,20 @@ with pkgs; [
   zsh-powerlevel10k
 
   # Python packages
-  python39
-  python39Packages.virtualenv # globally install virtualenv
-  python39Packages.pip
+  python311
+  python311Packages.virtualenv # globally install virtualenv
+  python311Packages.pip
+  python311Packages.uv
 
   # Keyboards
   goku
 
   # Kubernetes
-  k9s
+  kubernetes
   kubernetes-helm
+  k9s
   clusterctl
+  cilium-cli
   kind
   minikube
   kubectl
@@ -83,11 +87,17 @@ with pkgs; [
   upbound
   eksctl
   kubebuilder
+  krew
+  stern
+  kyverno
 
   flyctl
 
   # AWS
   awscli
+
+  # Google Cloud
+  google-cloud-sdk
 
   # LLM
   ollama

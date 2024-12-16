@@ -34,7 +34,7 @@ in
     };
 
     taps = [                                                                
-      "nikitabobko/tap"
+      # "nikitabobko/tap"
     ];
 
     # These app IDs are from using the mas CLI app
@@ -71,6 +71,27 @@ in
           { "emacs-launcher.command".source = myEmacsLauncher; }
         ];
         stateVersion = "23.11";
+
+        activation = {
+          krewPlugins = lib.hm.dag.entryAfter ["writeBoundary"] ''
+            export PATH=${lib.makeBinPath [ pkgs.git pkgs.kubectl ]}:$PATH:$HOME/.krew/bin
+            if ! command -v kubectl-krew >/dev/null 2>&1; then
+              $DRY_RUN_CMD ${pkgs.krew}/bin/krew install krew
+            fi
+            
+            # Install or update specified plugins
+            KREW_PLUGINS=(
+              "view-secret"
+              "access-matrix"
+            )
+            
+            for plugin in "''${KREW_PLUGINS[@]}"; do
+              if ! kubectl krew list | grep -q "^$plugin\$"; then
+                $DRY_RUN_CMD kubectl krew install "$plugin"
+              fi
+            done
+          '';
+        };
       };
       programs = {} // import ../shared/home-manager.nix { inherit config pkgs lib; };
 
@@ -112,5 +133,4 @@ in
       options = "--sort name --view grid --display stack";
     }
   ];
-
 }
