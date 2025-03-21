@@ -6,5 +6,5 @@ shared-packages ++ [
   dockutil
   pinentry_mac
   aerospace
-  uv
+  kdash
 ]

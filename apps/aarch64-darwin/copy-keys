@@ -15,17 +15,13 @@ handle_no_usb() {
 }
 
 mount_usb() {
-  MOUNT_PATH=""
-  for dev in $(diskutil list | grep -o 'disk[0-9]'); do
-    MOUNT_PATH="$(diskutil info /dev/${dev} | grep \"Mount Point\" | awk -F: '{print $2}' | xargs)"
-    if [ -n "${MOUNT_PATH}" ]; then
-      echo -e "${GREEN}USB drive found at ${MOUNT_PATH}.${NC}"
-      break
-    fi
-  done
-
-  if [ -z "${MOUNT_PATH}" ]; then
-    echo -e "${RED}No USB drive found.${NC}"
+  MOUNT_PATH="/Volumes/SSD-SCTU3A"
+  if [ -d "${MOUNT_PATH}" ]; then
+    echo -e "${GREEN}Using USB drive at ${MOUNT_PATH}.${NC}"
+    return 0
+  else
+    echo -e "${RED}USB drive not found at ${MOUNT_PATH}.${NC}"
+    return 1
   fi
 }
 
@@ -59,7 +55,7 @@ change_ownership() {
 setup_ssh_directory
 mount_usb
 
-if [ -z "${MOUNT_PATH}" ]; then
+if [ $? -ne 0 ]; then
   handle_no_usb
 else
   copy_keys

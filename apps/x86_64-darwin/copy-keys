@@ -9,23 +9,32 @@ username=${USER}
 export SSH_DIR=/Users/${username}/.ssh
 
 handle_no_usb() {
-  echo -e ${RED}No USB drive found or mounted.${NC}"
-  echo -e ${GREEN}If you have not yet set up your keys, run the script to generate new SSH keys.${NC}"
+  echo -e "${RED}No USB drive found or mounted.${NC}"
+  echo -e "${GREEN}If you have not yet set up your keys, run the script to generate new SSH keys.${NC}"
   exit 1
 }
 
 mount_usb() {
   MOUNT_PATH=""
-  for dev in $(diskutil list | grep -o 'disk[0-9]'); do
-    MOUNT_PATH="$(diskutil info /dev/${dev} | grep \"Mount Point\" | awk -F: '{print $2}' | xargs)"
-    if [ -n "${MOUNT_PATH}" ]; then
-      echo -e "${GREEN}USB drive found at ${MOUNT_PATH}.${NC}"
-      break
-    fi
+  echo "Searching for USB drives..."
+  
+  for dev in $(diskutil list external | grep -o 'disk[0-9]'); do
+    echo "Checking device: /dev/${dev}"
+    diskutil info /dev/${dev} | while IFS=: read key value; do
+      if [[ "${key}" == *"Mount Point"* ]] && [[ -n "${value}" ]]; then
+        MOUNT_PATH=$(echo "${value}" | xargs)
+        if [ -n "${MOUNT_PATH}" ]; then
+          echo -e "${GREEN}USB drive found at ${MOUNT_PATH}${NC}"
+          export MOUNT_PATH
+          return 0
+        fi
+      fi
+    done
   done
 
   if [ -z "${MOUNT_PATH}" ]; then
     echo -e "${RED}No USB drive found.${NC}"
+    return 1
   fi
 }
 

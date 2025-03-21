@@ -34,6 +34,15 @@ in
     packages = pkgs.callPackage ./packages.nix {};
     file = shared-files // import ./files.nix { inherit user; };
     stateVersion = "21.05";
+    
+    activation = {
+      installClaudeCode = lib.hm.dag.entryAfter ["writeBoundary"] ''
+        export PATH=${lib.makeBinPath [ pkgs.nodejs_22 ]}:$PATH
+        export npm_config_prefix=$HOME/.npm-packages
+        mkdir -p $HOME/.npm-packages
+        $DRY_RUN_CMD npm install -g @anthropic-ai/claude-code
+      '';
+    };
   };
 
   # Use a dark theme

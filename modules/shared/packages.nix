@@ -20,13 +20,14 @@ with pkgs; [
   neovim
   localsend
   gh
-  uv
+  nixpacks
 
   # Encryption and security tools
   age
   age-plugin-yubikey
   gnupg
   libfido2
+  yubikey-manager
 
   # Cloud-related tools and SDKs
   docker
@@ -45,9 +46,10 @@ with pkgs; [
   meslo-lgs-nf
 
   # Node.js development tools
-  nodePackages.npm # globally install npm
   nodePackages.prettier
-  nodejs
+  yarn-berry
+  pnpm
+  nodejs_22
 
   # Go
   go
@@ -71,31 +73,40 @@ with pkgs; [
   python311Packages.pip
   python311Packages.uv
 
+  # Zig packages
+  zig
+  
   # Keyboards
   goku
 
   # Kubernetes
   kubernetes
   kubernetes-helm
+  helmfile
   k9s
+  kcl
   clusterctl
   cilium-cli
   kind
   minikube
   kubectl
   kubectx
+  kubie
   upbound
   eksctl
   kubebuilder
   krew
   stern
   kyverno
+  fluxcd
+  tilt
+  kyverno-chainsaw
+  porter
 
   flyctl
 
   # AWS
   awscli
-
   # Google Cloud
   google-cloud-sdk
 

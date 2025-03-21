@@ -91,6 +91,13 @@ in
               fi
             done
           '';
+          
+          installClaudeCode = lib.hm.dag.entryAfter ["writeBoundary"] ''
+            export PATH=${lib.makeBinPath [ pkgs.nodejs_22 ]}:$PATH
+            export npm_config_prefix=$HOME/.npm-packages
+            mkdir -p $HOME/.npm-packages
+            $DRY_RUN_CMD npm install -g @anthropic-ai/claude-code
+          '';
         };
       };
       programs = {} // import ../shared/home-manager.nix { inherit config pkgs lib; };
@@ -130,7 +137,7 @@ in
       # path = "${config.users.users.${user}.home}/.local/share/downloads";
       path = "${config.users.users.${user}.home}/Downloads";
       section = "others";
-      options = "--sort name --view grid --display stack";
+      options = "--sort datemodified --view grid --display stack";
     }
   ];
 }

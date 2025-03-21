@@ -32,6 +32,9 @@ let name = "reoring";
       export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
       export PATH=$HOME/.local/share/bin:$PATH
       export PATH=''${KREW_ROOT:-$HOME/.krew}/bin:$PATH
+      
+      # Configure npm to install global packages in user's home directory
+      export npm_config_prefix=$HOME/.npm-packages
 
       # Remove history data we don't want to see
       export HISTIGNORE="pwd:ls:cd"

@@ -6,6 +6,7 @@ _:
   "visual-studio-code"
   "wezterm"
   "tabby"
+  "1password-cli"
 
   # Communication Tools
   "discord"
@@ -26,6 +27,7 @@ _:
   "kindle"
   "betterdisplay"
   "coconutbattery"
+  "superlist"
 
   "google-drive"
 
@@ -38,6 +40,7 @@ _:
 
   # Browsers
   "google-chrome"
+  "firefox"
   "arc"
 
   # Keyboard

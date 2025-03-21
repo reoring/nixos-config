@@ -38,6 +38,11 @@
       linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
       darwinSystems = [ "aarch64-darwin" "x86_64-darwin" ];
       forAllSystems = f: nixpkgs.lib.genAttrs (linuxSystems ++ darwinSystems) f;
+      
+      # Define overlays
+      overlays = [
+        (import ./overlays/porter.nix)
+      ];
       devShell = system: let pkgs = nixpkgs.legacyPackages.${system}; in {
         default = with pkgs; mkShell {
           nativeBuildInputs = with pkgs; [ bashInteractive git age age-plugin-yubikey ];
@@ -99,6 +104,10 @@
               };
             }
             ./hosts/darwin
+            # Apply overlays
+            {
+              nixpkgs.overlays = overlays;
+            }
           ];
         }
       );
@@ -116,6 +125,10 @@
             };
           }
           ./hosts/nixos
+          # Apply overlays
+          {
+            nixpkgs.overlays = overlays;
+          }
         ];
      });
   };
