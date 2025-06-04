@@ -24,7 +24,6 @@ _:
   "one-switch"
   "app-tamer"
   "aldente"
-  "kindle"
   "betterdisplay"
   "coconutbattery"
   "superlist"

@@ -66,6 +66,7 @@ with pkgs; [
   unrar
   unzip
   zsh-powerlevel10k
+  fzf
 
   # Python packages
   python311
