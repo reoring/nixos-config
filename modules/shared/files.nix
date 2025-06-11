@@ -43,4 +43,9 @@
   ".gnupg/gpg.conf" = {
     text = builtins.readFile ../shared/config/gnupg/gpg.conf;
   };
+
+  # Setup ghostty
+  ".config/ghostty/config" = {
+    text = builtins.readFile ../shared/config/ghostty/config;
+  };
 }

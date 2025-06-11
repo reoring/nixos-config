@@ -1,0 +1,23 @@
+theme = catppuccin-frappe
+
+font-family = Comic Mono
+macos-titlebar-style = hidden
+macos-non-native-fullscreen = true
+
+# クイックターミナルの位置を画面上部に設定
+quick-terminal-position = "top"
+
+# クイックターミナルを表示するスクリーンを設定 (メインスクリーン)
+quick-terminal-screen = "main"
+
+# アニメーション時間を0.2秒に設定 (お好みで調整可能)
+quick-terminal-animation-duration = 0
+
+# フォーカスを失った時に自動的に隠す
+# quick-terminal-auto-hide = true
+
+# グローバルホットキーを設定 (例: Ctrl+Command+`)
+keybind = "global:ctrl+cmd+`=toggle_quick_terminal"
+
+# ctrl+;を無視。SKKとのコンフリクトを解消
+keybind = ctrl+;=ignore
