@@ -50,10 +50,13 @@ in
     masApps = {
       # "1password" = 1333542190;
       # "reeder" = 2114932107;
-      "reeder-classic" = 1529448980;
-      "wireguard" = 1451685025;
-      "amphetamine" = 937984704;
-      "macdroid" = 1476545828;
+      # All of the below are already installed. `mas install` fails for
+      # already-installed apps in this environment and aborts `brew bundle`
+      # (and thus the whole darwin activation), so they are disabled here.
+      # "reeder-classic" = 1529448980;
+      # "wireguard" = 1451685025;
+      # "amphetamine" = 937984704;
+      # "macdroid" = 1476545828;
     };
   };
 
