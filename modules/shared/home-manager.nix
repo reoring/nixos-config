@@ -83,6 +83,9 @@ let name = "reoring";
         autocrlf = "input";
       };
       commit.gpgsign = true;
+      # the signing subkey lives on a YubiKey; the key must be named
+      # explicitly because user.name does not match the key UID
+      user.signingkey = "A884CB1D197077F01CF7FE9769164D3267922BDD";
       pull.rebase = true;
       rebase.autoStash = true;
     };
