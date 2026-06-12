@@ -66,6 +66,10 @@ let name = "reoring";
       # Always color ls and group directories
       alias ls='ls --color=auto'
     '';
+    initExtra = ''
+      # Load machine-local overrides last so they win over Nix-managed defaults
+      [[ -f $HOME/.zshrc.local ]] && source $HOME/.zshrc.local
+    '';
   };
 
   git = {

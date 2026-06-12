@@ -10,7 +10,7 @@ with pkgs; [
   btop
   coreutils
   killall
-  neofetch
+  fastfetch
   openssh
   sqlite
   wget
@@ -42,11 +42,11 @@ with pkgs; [
   font-awesome
   hack-font
   noto-fonts
-  noto-fonts-emoji
+  noto-fonts-color-emoji
   meslo-lgs-nf
 
   # Node.js development tools
-  nodePackages.prettier
+  prettier
   yarn-berry
   pnpm
   nodejs_22
@@ -69,10 +69,10 @@ with pkgs; [
   fzf
 
   # Python packages
-  python311
-  python311Packages.virtualenv # globally install virtualenv
-  python311Packages.pip
-  python311Packages.uv
+  python313
+  python313Packages.virtualenv # globally install virtualenv
+  python313Packages.pip
+  python313Packages.uv
 
   # Zig packages
   zig

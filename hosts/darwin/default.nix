@@ -1,6 +1,13 @@
 { agenix, config, pkgs, ... }:
 
-let user = "reoring"; in
+let
+  user = "reoring";
+  # macOS Tahoe (26.x) ships a libgccjit that fails Emacs's configure-time
+  # test program, and the current emacs-overlay master fails to build
+  # against the new tree-sitter ABI. Fall back to stable pkgs.emacs with
+  # native compilation off until upstream catches up.
+  emacsBuild = pkgs.emacs.override { withNativeCompilation = false; };
+in
 
 {
 
@@ -11,8 +18,14 @@ let user = "reoring"; in
      agenix.darwinModules.default
   ];
 
-  # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
+  # nix-darwin now manages the daemon unconditionally when nix.enable is on,
+  # and gc runs as root, so services.nix-daemon.enable / nix.gc.user are
+  # no longer settable.
+  system.primaryUser = user;
+
+  # Existing Nix install was set up before nix-darwin's default nixbld GID
+  # changed from 30000 to 350; tell nix-darwin to use the actual GID.
+  ids.gids.nixbld = 350;
 
   # Setup user, packages, programs
   nix = {
@@ -24,7 +37,6 @@ let user = "reoring"; in
     };
 
     gc = {
-      user = "root";
       automatic = true;
       interval = { Weekday = 0; Hour = 2; Minute = 0; };
       options = "--delete-older-than 30d";
@@ -40,7 +52,7 @@ let user = "reoring"; in
 
   # Load configuration that is shared across systems
   environment.systemPackages = with pkgs; [
-    emacs-unstable
+    emacsBuild
     agenix.packages."${pkgs.system}".default
     devbox
   ] ++ (import ../../modules/shared/packages.nix { inherit pkgs; });

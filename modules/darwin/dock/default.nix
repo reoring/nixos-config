@@ -61,8 +61,12 @@ in
         {
           system.defaults.dock.autohide = lib.mkForce cfg.autohide;
 
-          system.activationScripts.postUserActivation.text = ''
+          # postUserActivation was removed in nix-darwin 26.05 — activation
+          # now runs as root, so re-enter the primary user to manipulate the
+          # per-user Dock.
+          system.activationScripts.postActivation.text = ''
             echo >&2 "Setting up the Dock..."
+            sudo -u "${config.system.primaryUser}" bash <<'DOCK_EOF'
             haveURIs="$(${dockutil}/bin/dockutil --list | ${pkgs.coreutils}/bin/cut -f2)"
             if ! diff -wu <(echo -n "$haveURIs") <(echo -n '${wantURIs}') >&2 ; then
               echo >&2 "Resetting Dock."
@@ -72,6 +76,7 @@ in
             else
               echo >&2 "Dock setup complete."
             fi
+            DOCK_EOF
           '';
         }
       );
