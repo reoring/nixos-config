@@ -2,6 +2,7 @@
 
 let
   user = "reoring";
+  omniwmSettings = ../shared/config/omniwm/settings.toml;
   # Define the content of your file as a derivation
   myEmacsLauncher = pkgs.writeScript "emacs-launcher.command" ''
     #!/bin/sh
@@ -100,6 +101,20 @@ in
             export npm_config_prefix=$HOME/.npm-packages
             mkdir -p $HOME/.npm-packages
             $DRY_RUN_CMD npm install -g @anthropic-ai/claude-code
+          '';
+
+          restoreOmniWMSettings = lib.hm.dag.entryAfter ["writeBoundary"] ''
+            source="${omniwmSettings}"
+            target="$HOME/.config/omniwm/settings.toml"
+
+            $DRY_RUN_CMD mkdir -p "$HOME/.config/omniwm"
+            if [ ! -e "$target" ] || ! ${pkgs.diffutils}/bin/cmp -s "$source" "$target"; then
+              if [ -e "$target" ]; then
+                $DRY_RUN_CMD cp "$target" "$target.backup-before-nix-$(date +%Y%m%d-%H%M%S)"
+              fi
+              $DRY_RUN_CMD cp "$source" "$target"
+              $DRY_RUN_CMD chmod 600 "$target"
+            fi
           '';
         };
       };
