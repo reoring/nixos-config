@@ -35,7 +35,7 @@ in
     };
 
     taps = [                                                                
-      # "nikitabobko/tap"
+      "nikitabobko/tap"
     ];
 
     # These app IDs are from using the mas CLI app

@@ -214,6 +214,14 @@ let name = "reoring";
 
       window = {
         opacity = 1.0;
+        dynamic_padding = true;
+        decorations = "full";
+        title = "Terminal";
+        dynamic_title = false;
+        class = {
+          instance = "Alacritty";
+          general = "Alacritty";
+        };
         padding = {
           x = 24;
           y = 24;
@@ -230,15 +238,6 @@ let name = "reoring";
           (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin 14)
         ];
       };
-
-      dynamic_padding = true;
-      decorations = "full";
-      title = "Terminal";
-      class = {
-        instance = "Alacritty";
-        general = "Alacritty";
-      };
-
       colors = {
         primary = {
           background = "0x1f2528";

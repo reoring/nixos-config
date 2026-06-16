@@ -1,8 +1,11 @@
-theme = catppuccin-frappe
+theme = Catppuccin Frappe
 
 font-family = Comic Mono
 macos-titlebar-style = hidden
 macos-non-native-fullscreen = true
+# 内部ウィンドウタイトルのスピナー更新でAppKitのtitle更新が走るのを止める
+title = Ghostty
+shell-integration-features = cursor,no-sudo,no-title,no-ssh-env,no-ssh-terminfo,path
 
 # クイックターミナルの位置を画面上部に設定
 quick-terminal-position = "top"

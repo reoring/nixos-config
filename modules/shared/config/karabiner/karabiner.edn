@@ -65,9 +65,29 @@
     ]
   },
   {
-    :des "Right Command to Command + Control"
+    :des "Right Option + workspace keys moves focused AeroSpace window"
     :rules [
-      [:right_command {:key :right_command :modi :right_control} nil {:alone [{:key :right_command :modi :right_control}]}]
+      [:!Eq :!OSq]
+      [:!Ew :!OSw]
+      [:!Ee :!OSe]
+      [:!Er :!OSr]
+      [:!Et :!OSt]
+      [:!Ea :!OSa]
+      [:!Es :!OSs]
+      [:!Ed :!OSd]
+      [:!Ef :!OSf]
+      [:!Eg :!OSg]
+      [:!Ez :!OSz]
+      [:!Ex :!OSx]
+      [:!Ec :!OSc]
+      [:!Ev :!OSv]
+      [:!Eb :!OSb]
+    ]
+  },
+  {
+    :des "Right Command to Hyper (Ctrl+Option+Shift+Command)"
+    :rules [
+      [:right_command {:key :left_shift :modi [:left_command :left_control :left_option]}]
     ]
   }]
 }

@@ -46,7 +46,7 @@ _:
   "karabiner-elements"
 
   # WindowManager
-  # "nikitabobko/tap/aerospace"
+  "nikitabobko/tap/aerospace"
 
   # Password Management
   "1password"
