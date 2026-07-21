@@ -1,6 +1,7 @@
 theme = Catppuccin Frappe
 
 font-family = Comic Mono
+macos-option-as-alt = true
 macos-titlebar-style = hidden
 macos-non-native-fullscreen = true
 # 内部ウィンドウタイトルのスピナー更新でAppKitのtitle更新が走るのを止める

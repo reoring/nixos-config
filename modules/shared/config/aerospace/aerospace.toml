@@ -121,16 +121,13 @@ cmd-alt-ctrl-shift-x = ['workspace 12', 'exec-and-forget /opt/homebrew/bin/sketc
 cmd-alt-ctrl-shift-c = ['workspace 13', 'exec-and-forget /opt/homebrew/bin/sketchybar --trigger aerospace_workspace_change']
 cmd-alt-ctrl-shift-v = ['workspace 14', 'exec-and-forget /opt/homebrew/bin/sketchybar --trigger aerospace_workspace_change']
 cmd-alt-ctrl-shift-b = ['workspace 15', 'exec-and-forget /opt/homebrew/bin/sketchybar --trigger aerospace_workspace_change']
+cmd-alt-ctrl-shift-u = 'layout floating tiling'
 
 # Focus and window movement.
 alt-h = 'focus left'
 alt-j = 'focus down'
 alt-k = 'focus up'
 alt-l = 'focus right'
-cmd-h = 'focus left'
-cmd-j = 'focus down'
-cmd-k = 'focus up'
-cmd-l = 'focus right'
 ctrl-alt-h = 'focus left'
 alt-down = 'focus down'
 alt-up = 'focus up'
@@ -161,7 +158,6 @@ alt-shift-comma = 'layout accordion'
 alt-shift-backslash = 'layout tiles accordion'
 
 alt-enter = 'fullscreen'
-alt-shift-space = 'layout floating tiling'
 ctrl-alt-f = 'fullscreen --no-outer-gaps'
 alt-cmd-f = 'macos-native-fullscreen'
 
@@ -213,6 +209,22 @@ cmd-alt-ctrl-shift-semicolon = 'mode main'
 13 = ['built-in', 'main']
 14 = ['built-in', 'main']
 15 = ['built-in', 'main']
+
+[[on-window-detected]]
+if.app-id = 'app.zeimuhub.agent'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'zeimuhub-agent'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'ZeimuHub Agent'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'org.alacritty'
+run = ['layout floating']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.ScreenSharing'

@@ -53,7 +53,7 @@ in
   # Load configuration that is shared across systems
   environment.systemPackages = with pkgs; [
     emacsBuild
-    agenix.packages."${pkgs.system}".default
+    agenix.packages."${pkgs.stdenv.hostPlatform.system}".default
     devbox
   ] ++ (import ../../modules/shared/packages.nix { inherit pkgs; });
 

@@ -26,6 +26,9 @@ in
 
   homebrew = {
     enable = true;
+    brews = [
+      "herdr"
+    ];
     casks = pkgs.callPackage ./casks.nix {};
     onActivation = {
       autoUpdate = true;

@@ -21,66 +21,67 @@ let name = "reoring";
           file = "p10k.zsh";
       }
     ];
-    initExtraFirst = ''
-      if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
-        . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-        . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
-      fi
+    initContent = lib.mkMerge [
+      (lib.mkBefore ''
+        if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
+          . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+          . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
+        fi
 
-      # Define variables for directories
-      export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
-      export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
-      export PATH=$HOME/.local/share/bin:$PATH
-      export PATH=''${KREW_ROOT:-$HOME/.krew}/bin:$PATH
-      
-      # Configure npm to install global packages in user's home directory
-      export npm_config_prefix=$HOME/.npm-packages
+        # Define variables for directories
+        export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH
+        export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
+        export PATH=$HOME/.local/bin:$PATH
+        export PATH=$HOME/.local/share/bin:$PATH
+        export PATH=''${KREW_ROOT:-$HOME/.krew}/bin:$PATH
 
-      # Remove history data we don't want to see
-      export HISTIGNORE="pwd:ls:cd"
+        # Configure npm to install global packages in user's home directory
+        export npm_config_prefix=$HOME/.npm-packages
 
-      # Ripgrep alias
-      alias search=rg -p --glob '!node_modules/*'  $@
+        # Remove history data we don't want to see
+        export HISTIGNORE="pwd:ls:cd"
 
-      # Emacs is my editor
-      export ALTERNATE_EDITOR=""
-      export EDITOR="emacsclient -t"
-      export VISUAL="emacsclient -c -a emacs"
+        # Ripgrep alias
+        alias search=rg -p --glob '!node_modules/*'  $@
 
-      e() {
-          emacsclient -t "$@"
-      }
+        # Emacs is my editor
+        export ALTERNATE_EDITOR=""
+        export EDITOR="emacsclient -t"
+        export VISUAL="emacsclient -c -a emacs"
 
-      # nix shortcuts
-      shell() {
-          nix-shell '<nixpkgs>' -A "$1"
-      }
+        e() {
+            emacsclient -t "$@"
+        }
 
-      # pnpm is a javascript package manager
-      alias pn=pnpm
-      alias px=pnpx
+        # nix shortcuts
+        shell() {
+            nix-shell '<nixpkgs>' -A "$1"
+        }
 
-      # Use difftastic, syntax-aware diffing
-      alias diff=difft
+        # pnpm is a javascript package manager
+        alias pn=pnpm
+        alias px=pnpx
 
-      # Always color ls and group directories
-      alias ls='ls --color=auto'
-    '';
-    initExtra = ''
-      # Load machine-local overrides last so they win over Nix-managed defaults
-      [[ -f $HOME/.zshrc.local ]] && source $HOME/.zshrc.local
-    '';
+        # Use difftastic, syntax-aware diffing
+        alias diff=difft
+
+        # Always color ls and group directories
+        alias ls='ls --color=auto'
+      '')
+      ''
+        # Load machine-local overrides last so they win over Nix-managed defaults
+        [[ -f $HOME/.zshrc.local ]] && source $HOME/.zshrc.local
+      ''
+    ];
   };
 
   git = {
     enable = true;
     ignores = [ "*.swp" ];
-    userName = name;
-    userEmail = email;
     lfs = {
       enable = true;
     };
-    extraConfig = {
+    settings = {
       init.defaultBranch = "main";
       core = {
 	    editor = "vim";
@@ -90,6 +91,8 @@ let name = "reoring";
       # the signing subkey lives on a YubiKey; the key must be named
       # explicitly because user.name does not match the key UID
       user.signingkey = "A884CB1D197077F01CF7FE9769164D3267922BDD";
+      user.name = name;
+      user.email = email;
       pull.rebase = true;
       rebase.autoStash = true;
     };
@@ -216,6 +219,7 @@ let name = "reoring";
         opacity = 1.0;
         dynamic_padding = true;
         decorations = "full";
+        startup_mode = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin "SimpleFullscreen";
         title = "Terminal";
         dynamic_title = false;
         class = {
@@ -271,6 +275,7 @@ let name = "reoring";
 
   ssh = {
     enable = true;
+    enableDefaultConfig = false;
     includes = [
       (lib.mkIf pkgs.stdenv.hostPlatform.isLinux
         "/home/${user}/.ssh/config_external"
@@ -279,17 +284,28 @@ let name = "reoring";
         "/Users/${user}/.ssh/config_external"
       )
     ];
-    matchBlocks = {
+    settings = {
+      "*" = {
+        ForwardAgent = false;
+        AddKeysToAgent = "no";
+        Compression = false;
+        ServerAliveInterval = 0;
+        ServerAliveCountMax = 3;
+        HashKnownHosts = false;
+        UserKnownHostsFile = "~/.ssh/known_hosts";
+        ControlMaster = "no";
+        ControlPath = "~/.ssh/master-%r@%n:%p";
+        ControlPersist = "no";
+      };
       "github.com" = {
-        identitiesOnly = true;
-        identityFile = [
-          (lib.mkIf pkgs.stdenv.hostPlatform.isLinux
+        IdentitiesOnly = true;
+        IdentityFile =
+          (lib.optionals pkgs.stdenv.hostPlatform.isLinux [
             "/home/${user}/.ssh/id_github"
-          )
-          (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin
+          ])
+          ++ (lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
             "/Users/${user}/.ssh/id_github"
-          )
-        ];
+          ]);
       };
     };
   };
