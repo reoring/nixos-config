@@ -10,7 +10,7 @@ config-version = 2
 start-at-login = true
 
 after-login-command = []
-after-startup-command = ['exec-and-forget /Users/reoring/.local/bin/aerospace-restore-windows']
+after-startup-command = ['workspace 1', 'exec-and-forget /Users/reoring/.local/bin/aerospace-restore-windows']
 
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true

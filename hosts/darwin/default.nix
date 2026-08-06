@@ -27,25 +27,9 @@ in
   # changed from 30000 to 350; tell nix-darwin to use the actual GID.
   ids.gids.nixbld = 350;
 
-  # Setup user, packages, programs
-  nix = {
-    package = pkgs.nix;
-    settings = {
-      trusted-users = [ "@admin" "${user}" ];
-      substituters = [ "https://nix-community.cachix.org" "https://cache.nixos.org" ];
-      trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
-    };
-
-    gc = {
-      automatic = true;
-      interval = { Weekday = 0; Hour = 2; Minute = 0; };
-      options = "--delete-older-than 30d";
-    };
-
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
-  };
+  # Determinate manages the Nix daemon and Nix installation on this host.
+  # Keep nix-darwin from trying to manage the same files/services.
+  nix.enable = false;
 
   # Turn off NIX_PATH warnings now that we're using flakes
   system.checks.verifyNixPath = false;
@@ -78,6 +62,15 @@ in
       "-a"
       "Karabiner-Elements"
     ];
+  };
+
+  # AeroSpace is managed by Nix; start the app bundle from the active store
+  # generation instead of the Homebrew Cask location in /Applications.
+  launchd.user.agents."bobko.aerospace".serviceConfig = {
+    ProgramArguments = [
+      "${pkgs.aerospace}/Applications/AeroSpace.app/Contents/MacOS/AeroSpace"
+    ];
+    RunAtLoad = true;
   };
 
   system = {

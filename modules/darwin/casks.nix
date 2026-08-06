@@ -2,9 +2,11 @@ _:
 
 [
   # Development Tools
-  "homebrew/cask/docker"
+  # Temporarily disabled: brew bundle failed during cask install.
+  # "homebrew/cask/docker"
   "visual-studio-code"
-  "wezterm"
+  # Temporarily disabled: xattr failed on adopted app during cask install.
+  # "wezterm"
   "tabby"
   "1password-cli"
 
@@ -21,7 +23,8 @@ _:
   "bartender"
   "cleanshot"
   "bettertouchtool"
-  "one-switch"
+  # Temporarily disabled: existing app bundle version differs from cask.
+  # "one-switch"
   "app-tamer"
   "aldente"
   "betterdisplay"
@@ -35,7 +38,8 @@ _:
 
   # Productivity Tools
   "raycast"
-  "obsidian"
+  # Temporarily disabled: cask expected obsidian-cli inside existing app.
+  # "obsidian"
 
   # Browsers
   "google-chrome"
@@ -46,10 +50,11 @@ _:
   "karabiner-elements"
 
   # WindowManager
-  "nikitabobko/tap/aerospace"
+  # Managed by Nix in modules/darwin/packages.nix.
 
   # Password Management
-  "1password"
+  # Temporarily disabled: upstream cask checksum mismatch.
+  # "1password"
 
   # Network
   "tailscale"
@@ -60,9 +65,11 @@ _:
   # Virtual Machine
   "virtualbox"
   "vagrant"
-  "vmware-fusion"
+  # Temporarily disabled: Broadcom download host failed DNS resolution.
+  # "vmware-fusion"
 
-  "font-meslo-lg-nerd-font"
+  # Temporarily disabled: existing font differs from cask payload.
+  # "font-meslo-lg-nerd-font"
 
   "spotify"
 
