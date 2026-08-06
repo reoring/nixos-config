@@ -67,6 +67,8 @@ with pkgs; [
   unzip
   zsh-powerlevel10k
   fzf
+  # Lets remote hosts correctly interpret TERM=xterm-ghostty over SSH.
+  ghostty.terminfo
 
   # Python packages
   python313

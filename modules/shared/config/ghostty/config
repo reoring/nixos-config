@@ -1,4 +1,6 @@
 theme = Catppuccin Frappe
+background-opacity = 0.80
+background-blur = macos-glass-regular
 
 font-family = Comic Mono
 macos-option-as-alt = true
