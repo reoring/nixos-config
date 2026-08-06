@@ -67,8 +67,10 @@ with pkgs; [
   unzip
   zsh-powerlevel10k
   fzf
-  # Lets remote hosts correctly interpret TERM=xterm-ghostty over SSH.
+  # Lets remote Linux hosts correctly interpret TERM=xterm-ghostty over SSH.
+] ++ lib.optionals stdenv.hostPlatform.isLinux [
   ghostty.terminfo
+] ++ [
 
   # Python packages
   python313
@@ -91,7 +93,11 @@ with pkgs; [
   clusterctl
   cilium-cli
   kind
-  minikube
+  (minikube.overrideAttrs (old: {
+    postInstall = (old.postInstall or "") + ''
+      rm $out/bin/kubectl
+    '';
+  }))
   kubectl
   kubectx
   kubie

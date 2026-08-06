@@ -69,6 +69,17 @@ in
     StandardOutPath = "/tmp/emacs.out.log";
   };
 
+  launchd.user.agents.karabiner-elements.serviceConfig = {
+    RunAtLoad = true;
+    ProgramArguments = [
+      "/usr/bin/open"
+      "-g"
+      "-j"
+      "-a"
+      "Karabiner-Elements"
+    ];
+  };
+
   system = {
     stateVersion = 4;
 

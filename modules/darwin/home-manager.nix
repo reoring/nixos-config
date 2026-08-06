@@ -98,6 +98,10 @@ in
               fi
             done
           '';
+
+          compileKarabinerConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
+            $DRY_RUN_CMD env SHELL=/bin/sh ${pkgs.goku}/bin/goku
+          '';
           
           installClaudeCode = lib.hm.dag.entryAfter ["writeBoundary"] ''
             export PATH=${lib.makeBinPath [ pkgs.nodejs_22 ]}:$PATH
