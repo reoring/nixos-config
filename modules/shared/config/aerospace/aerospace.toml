@@ -27,7 +27,7 @@ inner.horizontal = 8
 inner.vertical = 8
 outer.left = 6
 outer.bottom = 6
-outer.top = [{ monitor."Built-in Retina Display" = 6 }, 40]
+outer.top = 6
 outer.right = 6
 
 [mode.main.binding]
