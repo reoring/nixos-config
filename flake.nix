@@ -8,6 +8,10 @@
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-homebrew = {
       url = "github:zhaofengli-wip/nix-homebrew";
     };
@@ -36,7 +40,7 @@
       flake = false;
     };
   };
-  outputs = { self, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, homebrew-nikitabobko-tap, home-manager, nixpkgs, disko, agenix, secrets } @inputs:
+  outputs = { self, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, homebrew-nikitabobko-tap, home-manager, nixpkgs, emacs-overlay, disko, agenix, secrets } @inputs:
     let
       user = "reoring";
       linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
@@ -46,6 +50,7 @@
       # Define overlays
       overlays = [
         (import ./overlays/porter.nix)
+        emacs-overlay.overlays.default
       ];
       devShell = system: let pkgs = nixpkgs.legacyPackages.${system}; in {
         default = with pkgs; mkShell {

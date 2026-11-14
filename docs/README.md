@@ -312,6 +312,54 @@ nix run .#build-switch
 > [!CAUTION]
 > `~/.zshrc` will be replaced with the [`zsh` configuration](https://github.com/dustinlyons/nixos-config/blob/main/templates/starter/modules/shared/home-manager.nix#L8) from this repository. Make sure this is what you want.
 
+AquaSKK's Japanese-input shortcut is configured in `modules/shared/config/aquaskk/keymap.conf`.
+Both `Ctrl+J` and `Ctrl+;` activate Japanese input. Home Manager installs this file
+at `~/Library/Application Support/AquaSKK/keymap.conf`; restart AquaSKK after changing it.
+
+#### Updating Herdr with the AquaSKK fix (Apple Silicon macOS)
+
+`tools/herdr-ime-updater/` contains the source patch, updater, and replacement
+regression tests. The updater builds an official release tag with the IME fix;
+it does not modify a downloaded executable. Run it when you want to update:
+
+```sh
+herdr-ime-update                 # latest version from releases.herdr.dev
+herdr-ime-update 0.1.14          # a specific release
+herdr-ime-update --check         # check latest patch applicability, no install
+```
+
+The command is a symlink to this checkout. To install it on another machine:
+
+```sh
+mkdir -p ~/.local/bin
+ln -s ~/nixos-config/tools/herdr-ime-updater/update.py ~/.local/bin/herdr-ime-update
+```
+
+Requires Python 3.11+, Git, Xcode, Rust 1.95.0 (via rustup), and Zig 0.16.0.
+Use `--toolchain VERSION` or the `ZIG` environment variable if a future release
+requires newer tools. `--app PATH` selects an existing bundle instead of
+`/Applications/Herdr.app`. Do not run with sudo.
+
+Before replacing anything, the command checks the patch, builds with the locked
+dependencies, runs the IME regression test, and verifies the locally signed
+bundle. Patch conflicts or build/test failures stop the update. It never
+silently drops the fix, including when upstream changes or incorporates it;
+review and retire/update the patch in that case.
+
+Installation briefly quits Herdr, but leaves herdr-core and terminals running.
+Previous bundles remain in `/Applications/.herdr-ime-backups/<timestamp>/Herdr.app`
+(relative to the selected app's parent with `--app`). A failed startup restores
+the previous bundle. Successful startup is checked through Herdr's status API;
+actual IME input still needs a manual check after upgrading. Local builds do not
+auto-update, and no scheduled updater is installed.
+
+Sources/build caches live in `~/Library/Caches/herdr-ime-updater`. Run the
+replacement safety tests without opening or changing the real app:
+
+```sh
+python3 -B -m unittest discover -s ~/nixos-config/tools/herdr-ime-updater -p 'test_*.py'
+```
+
 ## For NixOS
 This configuration supports both `x86_64` and `aarch64` platforms.
 

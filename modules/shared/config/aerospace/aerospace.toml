@@ -7,7 +7,7 @@
 # - OmniWM Hyper-like workspace shortcuts are kept as cmd-alt-ctrl-shift aliases.
 
 config-version = 2
-start-at-login = true
+start-at-login = false
 
 after-login-command = []
 after-startup-command = ['exec-and-forget /Users/reoring/.local/bin/aerospace-restore-windows']

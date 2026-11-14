@@ -2,7 +2,7 @@ _:
 
 [
   # Development Tools
-  "homebrew/cask/docker"
+  "homebrew/cask/docker-desktop"
   "visual-studio-code"
   "wezterm"
   "tabby"
@@ -17,7 +17,7 @@ _:
   "loom"
 
   # Utility Tools
-  "syncthing"
+  "syncthing-app"
   "bartender"
   "cleanshot"
   "bettertouchtool"
@@ -52,7 +52,7 @@ _:
   "1password"
 
   # Network
-  "tailscale"
+  "tailscale-app"
 
   # Input Methods
   "aquaskk"
@@ -71,7 +71,7 @@ _:
 
   "raindropio"
 
-  "linear-linear"
+  "linear"
   "figma"
 
   # LLM

@@ -99,8 +99,33 @@ in
             done
           '';
 
-          compileKarabinerConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
+          compileKarabinerConfig = lib.hm.dag.entryAfter ["linkGeneration"] ''
             $DRY_RUN_CMD env SHELL=/bin/sh ${pkgs.goku}/bin/goku
+          '';
+
+          restoreMistelMappings = lib.hm.dag.entryAfter ["compileKarabinerConfig"] ''
+            if [ -z "''${DRY_RUN_CMD:-}" ]; then
+              target="$HOME/.config/karabiner/karabiner.json"
+              temporary=$(mktemp "$target.XXXXXX")
+              if ${pkgs.jq}/bin/jq --slurpfile devices ${../shared/config/karabiner/mistel-devices.json} '
+                .profiles |= map(
+                  if .name == "Default" then
+                    .devices = (
+                      [(.devices // [])[] |
+                        select(.identifiers.vendor_id != 1241 or
+                               .identifiers.product_id != 1360)]
+                      + $devices[0]
+                    )
+                  else . end
+                )
+              ' "$target" > "$temporary"; then
+                chmod 600 "$temporary"
+                mv "$temporary" "$target"
+              else
+                rm -f "$temporary"
+                exit 1
+              fi
+            fi
           '';
           
           installClaudeCode = lib.hm.dag.entryAfter ["writeBoundary"] ''
@@ -112,15 +137,28 @@ in
 
           restoreOmniWMSettings = lib.hm.dag.entryAfter ["writeBoundary"] ''
             source="${omniwmSettings}"
-            target="$HOME/.config/omniwm/settings.toml"
+            shellSource="${../shared/config/omniwm/shell}"
+            directory="$HOME/.config/omniwm"
+            target="$directory/settings.toml"
 
-            $DRY_RUN_CMD mkdir -p "$HOME/.config/omniwm"
-            if [ ! -e "$target" ] || ! ${pkgs.diffutils}/bin/cmp -s "$source" "$target"; then
-              if [ -e "$target" ]; then
-                $DRY_RUN_CMD cp "$target" "$target.backup-before-nix-$(date +%Y%m%d-%H%M%S)"
+            if ! ${pkgs.diffutils}/bin/cmp -s "$source" "$target" ||
+               ! ${pkgs.diffutils}/bin/diff -qr "$shellSource" "$directory/shell" >/dev/null 2>&1; then
+              restartOmniWM=false
+              if /usr/bin/pgrep -x OmniWM >/dev/null; then
+                restartOmniWM=true
+                $DRY_RUN_CMD /usr/bin/osascript -e 'tell application "OmniWM" to quit'
               fi
+              if [ -d "$directory" ]; then
+                $DRY_RUN_CMD cp -R "$directory" "$directory.backup-before-nix-$(date +%Y%m%d-%H%M%S)"
+              fi
+              $DRY_RUN_CMD mkdir -p "$directory"
               $DRY_RUN_CMD cp "$source" "$target"
               $DRY_RUN_CMD chmod 600 "$target"
+              $DRY_RUN_CMD cp -R "$shellSource/." "$directory/shell"
+              $DRY_RUN_CMD chmod -R u+w "$directory/shell"
+              if [ "$restartOmniWM" = true ]; then
+                $DRY_RUN_CMD /usr/bin/open -a OmniWM
+              fi
             fi
           '';
         };

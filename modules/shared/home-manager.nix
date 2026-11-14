@@ -27,6 +27,9 @@ let name = "reoring";
           . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
           . /nix/var/nix/profiles/default/etc/profile.d/nix.sh
         fi
+        # Prefer the Nix version managed by the active nix-darwin generation.
+        export PATH=/run/current-system/sw/bin:$PATH
+
 
         # Define variables for directories
         export PATH=$HOME/.pnpm-packages/bin:$HOME/.pnpm-packages:$PATH

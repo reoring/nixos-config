@@ -2,11 +2,9 @@
 
 let
   user = "reoring";
-  # macOS Tahoe (26.x) ships a libgccjit that fails Emacs's configure-time
-  # test program, and the current emacs-overlay master fails to build
-  # against the new tree-sitter ABI. Fall back to stable pkgs.emacs with
-  # native compilation off until upstream catches up.
-  emacsBuild = pkgs.emacs.override { withNativeCompilation = false; };
+  # macOS Tahoe's libgccjit still fails Emacs's configure-time test program,
+  # so keep native compilation disabled while tracking the latest release.
+  emacsBuild = pkgs.emacs-unstable.override { withNativeCompilation = false; };
 in
 
 {
@@ -63,7 +61,7 @@ in
     ProgramArguments = [
       "/bin/sh"
       "-c"
-      "/bin/wait4path ${pkgs.emacs}/bin/emacs && exec ${pkgs.emacs}/bin/emacs --fg-daemon"
+      "/bin/wait4path ${emacsBuild}/bin/emacs && exec ${emacsBuild}/bin/emacs --fg-daemon"
     ];
     StandardErrorPath = "/tmp/emacs.err.log";
     StandardOutPath = "/tmp/emacs.out.log";
