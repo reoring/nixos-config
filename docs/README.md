@@ -139,20 +139,24 @@ xcode-select --install
 ```
 
 ### 2. Install Nix
-Thank you for the [installer](https://zero-to-nix.com/concepts/nix-installer), [Determinate Systems](https://determinate.systems/)!
+Use the [official installer](https://nixos.org/download) (multi-user, with the nix-daemon):
 ```sh
-curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install)
 ```
 
 After installation, open a new terminal session to make the `nix` executable available in your `$PATH`. You'll need this in the steps ahead.
 
 > [!IMPORTANT]
 >
-> The installer will ask if you want to install Determinate Nix. Answer _No_ as it [currently conflicts](https://github.com/dustinlyons/nixos-config/issues/146) with `nix-darwin`.
+> Do **not** use the Determinate Systems installer. Recent versions install Determinate Nix even when you
+> answer _No_ to its prompt or set `NIX_INSTALLER_DETERMINATE=false`, and Determinate Nix
+> [conflicts](https://github.com/dustinlyons/nixos-config/issues/146) with this config, which has
+> `nix-darwin` manage `/etc/nix/nix.conf`, the daemon and `nix.gc`.
+> If `nix --version` prints `Determinate Nix`, uninstall it with `sudo /nix/nix-installer uninstall` and use the command above.
 
 > [!IMPORTANT]
 >
-> If using [the official installation instructions](https://nixos.org/download) instead, [`flakes`](https://nixos.wiki/wiki/Flakes) and [`nix-command`](https://nixos.wiki/wiki/Nix_command) aren't available by default.
+> The official installer does not enable [`flakes`](https://nixos.wiki/wiki/Flakes) and [`nix-command`](https://nixos.wiki/wiki/Nix_command) by default (this config turns them on after the first `darwin-rebuild switch`).
 >
 > You'll need to enable them.
 > 

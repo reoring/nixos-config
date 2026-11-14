@@ -100,6 +100,15 @@ in
           '';
 
           compileKarabinerConfig = lib.hm.dag.entryAfter ["linkGeneration"] ''
+            # goku edits ~/.config/karabiner/karabiner.json and fails if it is
+            # missing, which is the case on a fresh Mac where Karabiner-Elements
+            # has never been launched. Seed a minimal file with the "Default"
+            # profile that goku and restoreMistelMappings expect.
+            karabinerJson="$HOME/.config/karabiner/karabiner.json"
+            if [ ! -e "$karabinerJson" ]; then
+              $DRY_RUN_CMD mkdir -p "$(dirname "$karabinerJson")"
+              $DRY_RUN_CMD sh -c 'printf "%s\n" "{\"profiles\":[{\"name\":\"Default\",\"selected\":true}]}" > "$1"' _ "$karabinerJson"
+            fi
             $DRY_RUN_CMD env SHELL=/bin/sh ${pkgs.goku}/bin/goku
           '';
 

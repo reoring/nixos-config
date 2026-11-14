@@ -52,15 +52,14 @@ _:
   "1password"
 
   # Network
-  "tailscale-app"
+  # Tailscale: use the Mac App Store version. The tailscale-app cask (pkg)
+  # refuses to install next to it, and two installs conflict on routing/DNS.
 
   # Input Methods
   "aquaskk"
 
   # Virtual Machine
-  "virtualbox"
   "vagrant"
-  "vmware-fusion"
 
   "font-meslo-lg-nerd-font"
 

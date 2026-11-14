@@ -1,4 +1,5 @@
 #!/bin/sh -e
+set -e  # also applies when invoked as `sh build-switch`, which ignores the shebang flags
 
 GREEN='\033[1;32m'
 YELLOW='\033[1;33m'
@@ -12,6 +13,25 @@ export NIXPKGS_ALLOW_UNFREE=1
 
 echo "${YELLOW}Starting build...${NC}"
 nix --extra-experimental-features 'nix-command flakes' build .#$FLAKE_SYSTEM $@
+
+# Install Homebrew packages from this terminal before activation.
+# During `darwin-rebuild switch`, brew bundle runs under nested sudo/pty layers,
+# so casks that run `sudo` themselves (pkg installers, /usr/local/bin links:
+# docker-desktop, zoom, tailscale-app, virtualbox, karabiner-elements, ...)
+# show a `Password:` prompt that keyboard input never reaches. Running the same
+# Brewfile here first lets those prompts work; activation then finds every
+# cask already installed. Skipped on the very first run, before nix-homebrew
+# has installed brew.
+BREW=/opt/homebrew/bin/brew
+if [ -x "$BREW" ]; then
+  echo "${YELLOW}Installing Homebrew packages...${NC}"
+  BREWFILE=$(mktemp "${TMPDIR:-/tmp}/Brewfile.XXXXXX")
+  nix --extra-experimental-features 'nix-command flakes' eval --raw \
+    .#darwinConfigurations.${SYSTEM_TYPE}.config.homebrew.brewfile $@ > "$BREWFILE"
+  HOMEBREW_CURL_RETRIES=3 "$BREW" bundle install --file="$BREWFILE" --no-upgrade ||
+    echo "${RED}Some Homebrew packages failed; activation will retry them.${NC}"
+  rm -f "$BREWFILE"
+fi
 
 echo "${YELLOW}Switching to new generation...${NC}"
 sudo ./result/sw/bin/darwin-rebuild switch --flake .#${SYSTEM_TYPE} $@
