@@ -98,6 +98,11 @@ let name = "reoring";
       user.email = email;
       pull.rebase = true;
       rebase.autoStash = true;
+      # Use gh for HTTPS auth to GitHub (what `gh auth setup-git` would write,
+      # but it cannot edit this read-only, Nix-managed file). The empty entry
+      # clears any helper inherited from other config files.
+      credential."https://github.com".helper = [ "" "!${pkgs.gh}/bin/gh auth git-credential" ];
+      credential."https://gist.github.com".helper = [ "" "!${pkgs.gh}/bin/gh auth git-credential" ];
     };
   };
 
