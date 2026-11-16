@@ -1,6 +1,15 @@
 theme = Catppuccin Frappe
-background-opacity = 0.80
+# ガラス風の透過: macOS 26のネイティブglass + 少し強めの透過
+background-opacity = 0.62
 background-blur = macos-glass-regular
+# nvim/tmuxなど背景色を塗るアプリでも透過させる
+background-opacity-cells = true
+# 余白でガラス面を見せる
+window-padding-x = 12
+window-padding-y = 10
+window-padding-balance = true
+# 非フォーカスsplitは軽く曇らせる程度に
+unfocused-split-opacity = 0.85
 
 font-family = Comic Mono
 macos-option-as-alt = true
