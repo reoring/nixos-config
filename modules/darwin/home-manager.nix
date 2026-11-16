@@ -31,15 +31,15 @@ in
     ];
     casks = pkgs.callPackage ./casks.nix {};
     onActivation = {
-      autoUpdate = true;
+      # tapはflake.lockで固定。更新は `nix flake update` で行う
+      autoUpdate = false;
       upgrade = true;
       cleanup = "zap";
       # cleanup = "uninstall";
     };
 
-    taps = [                                                                
-      "nikitabobko/tap"
-    ];
+    # nix-homebrew 側で宣言したtapと揃える（cleanupで消されないように）
+    taps = builtins.attrNames config.nix-homebrew.taps;
 
     # These app IDs are from using the mas CLI app
     # mas = mac app store

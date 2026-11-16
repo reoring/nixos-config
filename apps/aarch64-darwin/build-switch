@@ -22,12 +22,20 @@ nix --extra-experimental-features 'nix-command flakes' build .#$FLAKE_SYSTEM $@
 # Brewfile here first lets those prompts work; activation then finds every
 # cask already installed. Skipped on the very first run, before nix-homebrew
 # has installed brew.
+#
+# Taps are managed by nix-homebrew (mutableTaps = false) and only appear after
+# activation. If they are missing, skip this step: `brew bundle` would
+# otherwise `git clone` the taps into /opt/homebrew/Library/Taps, and
+# activation then aborts with "An existing /opt/homebrew/Library/Taps is in
+# the way". `tap` lines are dropped for the same reason.
 BREW=/opt/homebrew/bin/brew
-if [ -x "$BREW" ]; then
+TAPS=/opt/homebrew/Library/Taps
+if [ -x "$BREW" ] && [ -d "$TAPS" ]; then
   echo "${YELLOW}Installing Homebrew packages...${NC}"
   BREWFILE=$(mktemp "${TMPDIR:-/tmp}/Brewfile.XXXXXX")
   nix --extra-experimental-features 'nix-command flakes' eval --raw \
-    .#darwinConfigurations.${SYSTEM_TYPE}.config.homebrew.brewfile $@ > "$BREWFILE"
+    .#darwinConfigurations.${SYSTEM_TYPE}.config.homebrew.brewfile $@ |
+    grep -v '^tap ' > "$BREWFILE"
   HOMEBREW_CURL_RETRIES=3 "$BREW" bundle install --file="$BREWFILE" --no-upgrade ||
     echo "${RED}Some Homebrew packages failed; activation will retry them.${NC}"
   rm -f "$BREWFILE"
