@@ -77,4 +77,7 @@ _:
   "lm-studio"
   "chatgpt"
   "claude"
+
+  # Homebrew cask の GUI
+  "caskhub"
 ]
