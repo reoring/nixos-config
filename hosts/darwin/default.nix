@@ -78,14 +78,8 @@ in
     ];
   };
 
-  # AeroSpace is managed by Nix; start the app bundle from the active store
-  # generation instead of the Homebrew Cask location in /Applications.
-  launchd.user.agents."bobko.aerospace".serviceConfig = {
-    ProgramArguments = [
-      "${pkgs.aerospace}/Applications/AeroSpace.app/Contents/MacOS/AeroSpace"
-    ];
-    RunAtLoad = true;
-  };
+  # AeroSpace 自体は自動起動しない（aerospace.toml の start-at-login = false と揃える）。
+  # 起動させる時は `open ${pkgs.aerospace}/Applications/AeroSpace.app` で手動。
 
   system = {
     stateVersion = 4;

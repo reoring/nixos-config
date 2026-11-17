@@ -46,8 +46,8 @@ _:
   "karabiner-elements"
 
   # WindowManager
-  # Managed by Nix in modules/darwin/packages.nix; the launchd agent in
-  # hosts/darwin/default.nix starts the bundle from the active generation.
+  # Managed by Nix in modules/darwin/packages.nix; do not also install the
+  # cask, the two bundles conflict on the bundle identifier.
 
   # Password Management
   "1password"
