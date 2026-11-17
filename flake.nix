@@ -9,7 +9,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     emacs-overlay = {
-      url = "github:nix-community/emacs-overlay";
+      # Pinned to the rev that provides emacs-unstable 31.1, the daemon running
+      # on this host. Newer master builds emacs-31.1.90, whose source has to come
+      # from savannah, and that git-over-HTTPS endpoint kept dying mid-pack
+      # (502 / bad pack header). Bumping this needs a savannah fetch that
+      # actually completes.
+      url = "github:nix-community/emacs-overlay/aa7352f2aac735e9ece2ad25cf1bb8a553c0c668";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-homebrew = {

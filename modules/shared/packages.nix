@@ -115,14 +115,13 @@ with pkgs; [
 
   flyctl
 
-  # AWS
-  awscli
+  # AWS (v2 is the maintained line; nixpkgs' v1 build is broken on this rev)
+  awscli2
   # Google Cloud
   google-cloud-sdk
 
   # LLM
   ollama
-  aider-chat
 
   # Rust things
   rustup
