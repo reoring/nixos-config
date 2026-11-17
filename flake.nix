@@ -27,6 +27,12 @@
       url = "github:nikitabobko/homebrew-tap";
       flake = false;
     };
+    # `omp` coding agent. Tracked by release tag: upstream releases daily, the
+    # default branch carries unreleased commits, and the binary's own
+    # `omp update` refuses to run under Nix, so bumps here are the only path.
+    oh-my-pi = {
+      url = "github:can1357/oh-my-pi/v18.22.0";
+    };
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -36,7 +42,7 @@
       flake = false;
     };
   };
-  outputs = { self, darwin, nix-homebrew, homebrew-core, homebrew-cask, homebrew-nikitabobko-tap, home-manager, nixpkgs, emacs-overlay, disko, agenix, secrets } @inputs:
+  outputs = { self, darwin, nix-homebrew, homebrew-core, homebrew-cask, homebrew-nikitabobko-tap, home-manager, nixpkgs, emacs-overlay, oh-my-pi, disko, agenix, secrets } @inputs:
     let
       user = "reoring";
       linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
@@ -47,6 +53,8 @@
       overlays = [
         (import ./overlays/porter.nix)
         emacs-overlay.overlays.default
+        # oh-my-pi (`omp` coding agent)
+        oh-my-pi.overlays.default
       ];
       devShell = system: let pkgs = nixpkgs.legacyPackages.${system}; in {
         default = with pkgs; mkShell {

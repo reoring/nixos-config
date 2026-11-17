@@ -320,6 +320,30 @@ AquaSKK's Japanese-input shortcut is configured in `modules/shared/config/aquask
 Both `Ctrl+J` and `Ctrl+;` activate Japanese input. Home Manager installs this file
 at `~/Library/Application Support/AquaSKK/keymap.conf`; restart AquaSKK after changing it.
 
+#### Updating `omp` (the oh-my-pi coding agent)
+
+`omp` is built from the `oh-my-pi` flake input and installed through
+`modules/darwin/packages.nix`. The binary detects that it lives in the Nix store,
+so `omp update` refuses to run and prints this config's path instead:
+
+```
+This installation is managed by Nix and cannot update itself.
+Update the flake input or profile that provides omp, then rebuild.
+```
+
+The input is pinned to a release tag (`github:can1357/oh-my-pi/v18.22.0`), so
+upgrading is an explicit two-step change in this repository:
+
+```sh
+$EDITOR flake.nix                              # bump the tag, e.g. oh-my-pi/v18.23.0
+nix flake update oh-my-pi && nix run .#build-switch
+```
+
+Pinning by tag is deliberate: upstream releases almost daily and the default
+branch carries unreleased commits, so `nix flake update` (all inputs) leaves the
+`omp` version untouched. Check [releases](https://github.com/can1357/oh-my-pi/releases)
+for the current tag, and confirm after activation with `omp --version`.
+
 #### Updating Herdr with the AquaSKK fix (Apple Silicon macOS)
 
 `tools/herdr-ime-updater/` contains the source patch, updater, and replacement
