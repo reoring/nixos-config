@@ -36,7 +36,7 @@
     # default branch carries unreleased commits, and the binary's own
     # `omp update` refuses to run under Nix, so bumps here are the only path.
     oh-my-pi = {
-      url = "github:can1357/oh-my-pi/v18.22.0";
+      url = "github:can1357/oh-my-pi/v18.22.1";
     };
     disko = {
       url = "github:nix-community/disko";

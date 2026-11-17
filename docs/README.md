@@ -331,8 +331,9 @@ This installation is managed by Nix and cannot update itself.
 Update the flake input or profile that provides omp, then rebuild.
 ```
 
-The input is pinned to a release tag (`github:can1357/oh-my-pi/v18.22.0`), so
-upgrading is an explicit two-step change in this repository:
+The input is pinned to a release tag (`github:can1357/oh-my-pi/<tag>`, see the
+`oh-my-pi` input in `flake.nix`), so upgrading is an explicit two-step change in
+this repository:
 
 ```sh
 $EDITOR flake.nix                              # bump the tag, e.g. oh-my-pi/v18.23.0
