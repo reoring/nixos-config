@@ -1,7 +1,7 @@
 theme = Catppuccin Frappe
 # ガラス風の透過: macOS 26のネイティブglass + 少し強めの透過
-background-opacity = 0.62
-background-blur = macos-glass-regular
+background-opacity = 0.6
+background-blur = macos-glass-clear
 # nvim/tmuxなど背景色を塗るアプリでも透過させる
 background-opacity-cells = true
 # 余白でガラス面を見せる
@@ -36,3 +36,6 @@ keybind = "global:ctrl+cmd+`=toggle_quick_terminal"
 
 # ctrl+;を無視。SKKとのコンフリクトを解消
 keybind = ctrl+;=ignore
+
+# 実験用の上書き設定(nix管理外)。存在すれば最後に読み込まれ、上の値を上書きする
+config-file = ?local
