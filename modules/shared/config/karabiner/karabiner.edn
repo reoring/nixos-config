@@ -1,4 +1,7 @@
 {
+  :applications {
+    :parallels ["^com\\.parallels\\.desktop\\.console$"]
+  }
   :simlayers {
     :space-layer {:key :spacebar}
   }
@@ -85,9 +88,62 @@
     ]
   },
   {
-    :des "Right Command to Hyper (Ctrl+Option+Shift+Command)"
+    :des "Right Command to Shiftless Hyper (Ctrl+Option+Command)"
     :rules [
-      [:right_command {:key :left_shift :modi [:left_command :left_control :left_option]}]
+      [:##right_command {:key :left_option :modi [:left_command :left_control]} :!parallels]
+    ]
+  },
+  {
+    :des "OmniWM: Left Option + H/L focuses left/right column"
+    :rules [
+      [:!Oh "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command focus left" :!parallels]
+      [:!Ol "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command focus right" :!parallels]
+    ]
+  },
+  {
+    :des "OmniWM: Right Command (Hyper) + Shift + qwertasdfgzxcvb moves window to workspace 1-15"
+    :rules [
+      [{:key :q :modi {:mandatory [:left_command :left_control :left_option :shift]}} "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command move-to-workspace 1" :!parallels]
+      [{:key :w :modi {:mandatory [:left_command :left_control :left_option :shift]}} "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command move-to-workspace 2" :!parallels]
+      [{:key :e :modi {:mandatory [:left_command :left_control :left_option :shift]}} "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command move-to-workspace 3" :!parallels]
+      [{:key :r :modi {:mandatory [:left_command :left_control :left_option :shift]}} "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command move-to-workspace 4" :!parallels]
+      [{:key :t :modi {:mandatory [:left_command :left_control :left_option :shift]}} "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command move-to-workspace 5" :!parallels]
+      [{:key :a :modi {:mandatory [:left_command :left_control :left_option :shift]}} "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command move-to-workspace 6" :!parallels]
+      [{:key :s :modi {:mandatory [:left_command :left_control :left_option :shift]}} "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command move-to-workspace 7" :!parallels]
+      [{:key :d :modi {:mandatory [:left_command :left_control :left_option :shift]}} "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command move-to-workspace 8" :!parallels]
+      [{:key :f :modi {:mandatory [:left_command :left_control :left_option :shift]}} "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command move-to-workspace 9" :!parallels]
+      [{:key :g :modi {:mandatory [:left_command :left_control :left_option :shift]}} "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command move-to-workspace 10" :!parallels]
+      [{:key :z :modi {:mandatory [:left_command :left_control :left_option :shift]}} "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command move-to-workspace 11" :!parallels]
+      [{:key :x :modi {:mandatory [:left_command :left_control :left_option :shift]}} "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command move-to-workspace 12" :!parallels]
+      [{:key :c :modi {:mandatory [:left_command :left_control :left_option :shift]}} "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command move-to-workspace 13" :!parallels]
+      [{:key :v :modi {:mandatory [:left_command :left_control :left_option :shift]}} "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command move-to-workspace 14" :!parallels]
+      [{:key :b :modi {:mandatory [:left_command :left_control :left_option :shift]}} "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command move-to-workspace 15" :!parallels]
+    ]
+  },
+  {
+    :des "OmniWM: Right Command (Hyper) + M toggles workspace bar (reveals macOS menu bar)"
+    :rules [
+      [:!CTOm "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command toggle-workspace-bar" :!parallels]
+    ]
+  },
+  {
+    :des "OmniWM: Right Command (Hyper) + qwertasdfgzxcvb switches workspace 1-15"
+    :rules [
+      [:!CTOq "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command switch-workspace 1" :!parallels]
+      [:!CTOw "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command switch-workspace 2" :!parallels]
+      [:!CTOe "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command switch-workspace 3" :!parallels]
+      [:!CTOr "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command switch-workspace 4" :!parallels]
+      [:!CTOt "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command switch-workspace 5" :!parallels]
+      [:!CTOa "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command switch-workspace 6" :!parallels]
+      [:!CTOs "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command switch-workspace 7" :!parallels]
+      [:!CTOd "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command switch-workspace 8" :!parallels]
+      [:!CTOf "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command switch-workspace 9" :!parallels]
+      [:!CTOg "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command switch-workspace 10" :!parallels]
+      [:!CTOz "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command switch-workspace 11" :!parallels]
+      [:!CTOx "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command switch-workspace 12" :!parallels]
+      [:!CTOc "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command switch-workspace 13" :!parallels]
+      [:!CTOv "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command switch-workspace 14" :!parallels]
+      [:!CTOb "/Applications/OmniWM.app/Contents/MacOS/omniwmctl command switch-workspace 15" :!parallels]
     ]
   }]
 }

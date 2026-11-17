@@ -139,20 +139,24 @@ xcode-select --install
 ```
 
 ### 2. Install Nix
-Thank you for the [installer](https://zero-to-nix.com/concepts/nix-installer), [Determinate Systems](https://determinate.systems/)!
+Use the [official installer](https://nixos.org/download) (multi-user, with the nix-daemon):
 ```sh
-curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install)
 ```
 
 After installation, open a new terminal session to make the `nix` executable available in your `$PATH`. You'll need this in the steps ahead.
 
 > [!IMPORTANT]
 >
-> The installer will ask if you want to install Determinate Nix. Answer _No_ as it [currently conflicts](https://github.com/dustinlyons/nixos-config/issues/146) with `nix-darwin`.
+> Do **not** use the Determinate Systems installer. Recent versions install Determinate Nix even when you
+> answer _No_ to its prompt or set `NIX_INSTALLER_DETERMINATE=false`, and Determinate Nix
+> [conflicts](https://github.com/dustinlyons/nixos-config/issues/146) with this config, which has
+> `nix-darwin` manage `/etc/nix/nix.conf`, the daemon and `nix.gc`.
+> If `nix --version` prints `Determinate Nix`, uninstall it with `sudo /nix/nix-installer uninstall` and use the command above.
 
 > [!IMPORTANT]
 >
-> If using [the official installation instructions](https://nixos.org/download) instead, [`flakes`](https://nixos.wiki/wiki/Flakes) and [`nix-command`](https://nixos.wiki/wiki/Nix_command) aren't available by default.
+> The official installer does not enable [`flakes`](https://nixos.wiki/wiki/Flakes) and [`nix-command`](https://nixos.wiki/wiki/Nix_command) by default (this config turns them on after the first `darwin-rebuild switch`).
 >
 > You'll need to enable them.
 > 
@@ -311,6 +315,78 @@ nix run .#build-switch
 ```
 > [!CAUTION]
 > `~/.zshrc` will be replaced with the [`zsh` configuration](https://github.com/dustinlyons/nixos-config/blob/main/templates/starter/modules/shared/home-manager.nix#L8) from this repository. Make sure this is what you want.
+
+AquaSKK's Japanese-input shortcut is configured in `modules/shared/config/aquaskk/keymap.conf`.
+Both `Ctrl+J` and `Ctrl+;` activate Japanese input. Home Manager installs this file
+at `~/Library/Application Support/AquaSKK/keymap.conf`; restart AquaSKK after changing it.
+
+#### Updating `omp` (the oh-my-pi coding agent)
+
+`omp` is built from the `oh-my-pi` flake input and installed through
+`modules/darwin/packages.nix`. The binary detects that it lives in the Nix store,
+so `omp update` refuses to run and prints this config's path instead:
+
+```
+This installation is managed by Nix and cannot update itself.
+Update the flake input or profile that provides omp, then rebuild.
+```
+
+The input is pinned to a release tag (`github:can1357/oh-my-pi/v18.22.0`), so
+upgrading is an explicit two-step change in this repository:
+
+```sh
+$EDITOR flake.nix                              # bump the tag, e.g. oh-my-pi/v18.23.0
+nix flake update oh-my-pi && nix run .#build-switch
+```
+
+Pinning by tag is deliberate: upstream releases almost daily and the default
+branch carries unreleased commits, so `nix flake update` (all inputs) leaves the
+`omp` version untouched. Check [releases](https://github.com/can1357/oh-my-pi/releases)
+for the current tag, and confirm after activation with `omp --version`.
+
+#### Updating Herdr with the AquaSKK fix (Apple Silicon macOS)
+
+`tools/herdr-ime-updater/` contains the source patch, updater, and replacement
+regression tests. The updater builds an official release tag with the IME fix;
+it does not modify a downloaded executable. Run it when you want to update:
+
+```sh
+herdr-ime-update                 # latest version from releases.herdr.dev
+herdr-ime-update 0.1.14          # a specific release
+herdr-ime-update --check         # check latest patch applicability, no install
+```
+
+The command is a symlink to this checkout. To install it on another machine:
+
+```sh
+mkdir -p ~/.local/bin
+ln -s ~/nixos-config/tools/herdr-ime-updater/update.py ~/.local/bin/herdr-ime-update
+```
+
+Requires Python 3.11+, Git, Xcode, Rust 1.95.0 (via rustup), and Zig 0.16.0.
+Use `--toolchain VERSION` or the `ZIG` environment variable if a future release
+requires newer tools. `--app PATH` selects an existing bundle instead of
+`/Applications/Herdr.app`. Do not run with sudo.
+
+Before replacing anything, the command checks the patch, builds with the locked
+dependencies, runs the IME regression test, and verifies the locally signed
+bundle. Patch conflicts or build/test failures stop the update. It never
+silently drops the fix, including when upstream changes or incorporates it;
+review and retire/update the patch in that case.
+
+Installation briefly quits Herdr, but leaves herdr-core and terminals running.
+Previous bundles remain in `/Applications/.herdr-ime-backups/<timestamp>/Herdr.app`
+(relative to the selected app's parent with `--app`). A failed startup restores
+the previous bundle. Successful startup is checked through Herdr's status API;
+actual IME input still needs a manual check after upgrading. Local builds do not
+auto-update, and no scheduled updater is installed.
+
+Sources/build caches live in `~/Library/Caches/herdr-ime-updater`. Run the
+replacement safety tests without opening or changing the real app:
+
+```sh
+python3 -B -m unittest discover -s ~/nixos-config/tools/herdr-ime-updater -p 'test_*.py'
+```
 
 ## For NixOS
 This configuration supports both `x86_64` and `aarch64` platforms.

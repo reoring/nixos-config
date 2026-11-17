@@ -2,11 +2,9 @@ _:
 
 [
   # Development Tools
-  # Temporarily disabled: brew bundle failed during cask install.
-  # "homebrew/cask/docker"
+  "homebrew/cask/docker-desktop"
   "visual-studio-code"
-  # Temporarily disabled: xattr failed on adopted app during cask install.
-  # "wezterm"
+  "wezterm"
   "tabby"
   "1password-cli"
 
@@ -19,12 +17,11 @@ _:
   "loom"
 
   # Utility Tools
-  "syncthing"
+  "syncthing-app"
   "bartender"
   "cleanshot"
   "bettertouchtool"
-  # Temporarily disabled: existing app bundle version differs from cask.
-  # "one-switch"
+  "one-switch"
   "app-tamer"
   "aldente"
   "betterdisplay"
@@ -38,8 +35,7 @@ _:
 
   # Productivity Tools
   "raycast"
-  # Temporarily disabled: cask expected obsidian-cli inside existing app.
-  # "obsidian"
+  "obsidian"
 
   # Browsers
   "google-chrome"
@@ -50,26 +46,23 @@ _:
   "karabiner-elements"
 
   # WindowManager
-  # Managed by Nix in modules/darwin/packages.nix.
+  # Managed by Nix in modules/darwin/packages.nix; the launchd agent in
+  # hosts/darwin/default.nix starts the bundle from the active generation.
 
   # Password Management
-  # Temporarily disabled: upstream cask checksum mismatch.
-  # "1password"
+  "1password"
 
   # Network
-  "tailscale"
+  # Tailscale: use the Mac App Store version. The tailscale-app cask (pkg)
+  # refuses to install next to it, and two installs conflict on routing/DNS.
 
   # Input Methods
   "aquaskk"
 
   # Virtual Machine
-  "virtualbox"
   "vagrant"
-  # Temporarily disabled: Broadcom download host failed DNS resolution.
-  # "vmware-fusion"
 
-  # Temporarily disabled: existing font differs from cask payload.
-  # "font-meslo-lg-nerd-font"
+  "font-meslo-lg-nerd-font"
 
   "spotify"
 
@@ -78,11 +71,14 @@ _:
 
   "raindropio"
 
-  "linear-linear"
+  "linear"
   "figma"
 
   # LLM
   "lm-studio"
   "chatgpt"
   "claude"
+
+  # Homebrew cask の GUI
+  "caskhub"
 ]

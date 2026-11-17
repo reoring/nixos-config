@@ -2,11 +2,9 @@
 
 let
   user = "reoring";
-  # macOS Tahoe (26.x) ships a libgccjit that fails Emacs's configure-time
-  # test program, and the current emacs-overlay master fails to build
-  # against the new tree-sitter ABI. Fall back to stable pkgs.emacs with
-  # native compilation off until upstream catches up.
-  emacsBuild = pkgs.emacs.override { withNativeCompilation = false; };
+  # macOS Tahoe's libgccjit still fails Emacs's configure-time test program,
+  # so keep native compilation disabled while tracking the latest release.
+  emacsBuild = pkgs.emacs-unstable.override { withNativeCompilation = false; };
 in
 
 {
@@ -27,9 +25,25 @@ in
   # changed from 30000 to 350; tell nix-darwin to use the actual GID.
   ids.gids.nixbld = 350;
 
-  # Determinate manages the Nix daemon and Nix installation on this host.
-  # Keep nix-darwin from trying to manage the same files/services.
-  nix.enable = false;
+  # Setup user, packages, programs
+  nix = {
+    package = pkgs.nix;
+    settings = {
+      trusted-users = [ "@admin" "${user}" ];
+      substituters = [ "https://nix-community.cachix.org" "https://cache.nixos.org" ];
+      trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+    };
+
+    gc = {
+      automatic = true;
+      interval = { Weekday = 0; Hour = 2; Minute = 0; };
+      options = "--delete-older-than 30d";
+    };
+
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
 
   # Turn off NIX_PATH warnings now that we're using flakes
   system.checks.verifyNixPath = false;
@@ -47,7 +61,7 @@ in
     ProgramArguments = [
       "/bin/sh"
       "-c"
-      "/bin/wait4path ${pkgs.emacs}/bin/emacs && exec ${pkgs.emacs}/bin/emacs --fg-daemon"
+      "/bin/wait4path ${emacsBuild}/bin/emacs && exec ${emacsBuild}/bin/emacs --fg-daemon"
     ];
     StandardErrorPath = "/tmp/emacs.err.log";
     StandardOutPath = "/tmp/emacs.out.log";

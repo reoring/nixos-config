@@ -118,6 +118,9 @@ return {
 
   keys = mykeys,
 
+  use_ime = true,
+  macos_forward_to_ime_modifier_mask = 'SHIFT|CTRL',
+
   enable_scroll_bar = true,
 
   -- unix_domains = {

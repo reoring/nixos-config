@@ -8,12 +8,12 @@
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-homebrew = {
       url = "github:zhaofengli-wip/nix-homebrew";
-    };
-    homebrew-bundle = {
-      url = "github:homebrew/homebrew-bundle";
-      flake = false;
     };
     homebrew-core = {
       url = "github:homebrew/homebrew-core";
@@ -27,6 +27,12 @@
       url = "github:nikitabobko/homebrew-tap";
       flake = false;
     };
+    # `omp` coding agent. Tracked by release tag: upstream releases daily, the
+    # default branch carries unreleased commits, and the binary's own
+    # `omp update` refuses to run under Nix, so bumps here are the only path.
+    oh-my-pi = {
+      url = "github:can1357/oh-my-pi/v18.22.0";
+    };
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -36,7 +42,7 @@
       flake = false;
     };
   };
-  outputs = { self, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, homebrew-nikitabobko-tap, home-manager, nixpkgs, disko, agenix, secrets } @inputs:
+  outputs = { self, darwin, nix-homebrew, homebrew-core, homebrew-cask, homebrew-nikitabobko-tap, home-manager, nixpkgs, emacs-overlay, oh-my-pi, disko, agenix, secrets } @inputs:
     let
       user = "reoring";
       linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
@@ -46,6 +52,9 @@
       # Define overlays
       overlays = [
         (import ./overlays/porter.nix)
+        emacs-overlay.overlays.default
+        # oh-my-pi (`omp` coding agent)
+        oh-my-pi.overlays.default
       ];
       devShell = system: let pkgs = nixpkgs.legacyPackages.${system}; in {
         default = with pkgs; mkShell {
@@ -101,10 +110,11 @@
                 taps = {
                   "homebrew/homebrew-core" = homebrew-core;
                   "homebrew/homebrew-cask" = homebrew-cask;
-                  "homebrew/homebrew-bundle" = homebrew-bundle;
                   "nikitabobko/homebrew-tap" = homebrew-nikitabobko-tap;
                 };
-                mutableTaps = true;
+                # tapはNixで宣言的に管理（rootでrsyncされた
+                # tapを brew が触って Permission denied になるのを防ぐ）
+                mutableTaps = false;
                 autoMigrate = true;
               };
             }
