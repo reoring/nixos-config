@@ -85,7 +85,8 @@ with pkgs; [
   goku
 
   # Kubernetes
-  kubernetes
+  # minikube now ships kubectl; avoid colliding kubectl binaries in the
+  # Home Manager profile.
   kubernetes-helm
   helmfile
   k9s

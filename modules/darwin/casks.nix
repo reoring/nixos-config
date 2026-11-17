@@ -46,7 +46,8 @@ _:
   "karabiner-elements"
 
   # WindowManager
-  "nikitabobko/tap/aerospace"
+  # Managed by Nix in modules/darwin/packages.nix; the launchd agent in
+  # hosts/darwin/default.nix starts the bundle from the active generation.
 
   # Password Management
   "1password"

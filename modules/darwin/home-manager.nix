@@ -34,8 +34,10 @@ in
       # tapはflake.lockで固定。更新は `nix flake update` で行う
       autoUpdate = false;
       upgrade = true;
-      cleanup = "zap";
-      # cleanup = "uninstall";
+      # Homebrew 5 removed the --force-cleanup option used by nix-darwin's
+      # cleanup modes. Keep activation compatible; cleanup can be run
+      # explicitly with `brew bundle cleanup --force` when desired.
+      cleanup = "none";
     };
 
     # nix-homebrew 側で宣言したtapと揃える（cleanupで消されないように）
@@ -141,7 +143,14 @@ in
             export PATH=${lib.makeBinPath [ pkgs.nodejs_22 ]}:$PATH
             export npm_config_prefix=$HOME/.npm-packages
             mkdir -p $HOME/.npm-packages
-            $DRY_RUN_CMD npm install -g @anthropic-ai/claude-code
+            $DRY_RUN_CMD npm install -g @anthropic-ai/claude-code@latest
+          '';
+
+          installCodex = lib.hm.dag.entryAfter ["writeBoundary"] ''
+            export PATH=${lib.makeBinPath [ pkgs.nodejs_22 ]}:$PATH
+            export npm_config_prefix=$HOME/.npm-packages
+            mkdir -p $HOME/.npm-packages
+            $DRY_RUN_CMD npm install -g @openai/codex@latest
           '';
 
           restoreOmniWMSettings = lib.hm.dag.entryAfter ["writeBoundary"] ''

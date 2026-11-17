@@ -40,7 +40,14 @@ in
         export PATH=${lib.makeBinPath [ pkgs.nodejs_22 ]}:$PATH
         export npm_config_prefix=$HOME/.npm-packages
         mkdir -p $HOME/.npm-packages
-        $DRY_RUN_CMD npm install -g @anthropic-ai/claude-code
+        $DRY_RUN_CMD npm install -g @anthropic-ai/claude-code@latest
+      '';
+
+      installCodex = lib.hm.dag.entryAfter ["writeBoundary"] ''
+        export PATH=${lib.makeBinPath [ pkgs.nodejs_22 ]}:$PATH
+        export npm_config_prefix=$HOME/.npm-packages
+        mkdir -p $HOME/.npm-packages
+        $DRY_RUN_CMD npm install -g @openai/codex@latest
       '';
     };
   };

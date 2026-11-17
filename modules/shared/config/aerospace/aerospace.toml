@@ -10,7 +10,7 @@ config-version = 2
 start-at-login = false
 
 after-login-command = []
-after-startup-command = ['exec-and-forget /Users/reoring/.local/bin/aerospace-restore-windows']
+after-startup-command = ['workspace 1', 'exec-and-forget /Users/reoring/.local/bin/aerospace-restore-windows']
 
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
@@ -27,7 +27,7 @@ inner.horizontal = 8
 inner.vertical = 8
 outer.left = 6
 outer.bottom = 6
-outer.top = [{ monitor."Built-in Retina Display" = 6 }, 40]
+outer.top = 6
 outer.right = 6
 
 [mode.main.binding]
