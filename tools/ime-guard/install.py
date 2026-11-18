@@ -1,24 +1,24 @@
 #!/usr/bin/env python3
-"""Build and install the current user's AquaSKK guard (requires Apple CLT)."""
+"""Build and install the current user's SKK input-source guard (requires Apple CLT)."""
 import os
 from pathlib import Path
 import plistlib
 import subprocess
 import tempfile
 
-LABEL = "local.reoring.aquaskk-guard"
+LABEL = "local.reoring.ime-guard"
 
 
 def main():
     home = Path.home()
-    binary = home / ".local/bin/aquaskk-guard"
+    binary = home / ".local/bin/ime-guard"
     plist = home / "Library/LaunchAgents" / f"{LABEL}.plist"
     domain = f"gui/{os.getuid()}"
     service = f"{domain}/{LABEL}"
     binary.parent.mkdir(parents=True, exist_ok=True)
     plist.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix="aquaskk-guard-", dir=binary.parent) as tmp:
-        built = Path(tmp) / "aquaskk-guard"
+    with tempfile.TemporaryDirectory(prefix="ime-guard-", dir=binary.parent) as tmp:
+        built = Path(tmp) / "ime-guard"
         subprocess.run([
             "/usr/bin/xcrun", "swiftc", "-O", str(Path(__file__).with_name("main.swift")),
             "-o", str(built),

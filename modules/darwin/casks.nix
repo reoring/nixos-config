@@ -58,6 +58,7 @@ _:
 
   # Input Methods
   "aquaskk"
+  "macskk"
 
   # Virtual Machine
   "vagrant"

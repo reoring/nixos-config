@@ -2,10 +2,26 @@ import AppKit
 import Carbon
 import OSLog
 
-let aquaPrefix = "jp.sourceforge.inputmethod.aquaskk."
+// Both SKK engines expose each input mode as its own TIS input source:
+// AquaSKK `...aquaskk.Hiragana`, macSKK `...macSKK.hiragana`. The guard treats
+// any source under these prefixes as "a SKK mode is in use".
+let skkPrefixes = [
+    "jp.sourceforge.inputmethod.aquaskk.",
+    "net.mtgto.inputmethod.macSKK.",
+]
+// Used only before anything has been remembered: hiragana on whichever engine
+// is actually enabled, macSKK first.
+let defaultSources = [
+    "net.mtgto.inputmethod.macSKK.hiragana",
+    "jp.sourceforge.inputmethod.aquaskk.Hiragana",
+]
 let abcID = "com.apple.keylayout.ABC"
-let preferences = UserDefaults(suiteName: "local.reoring.aquaskk-guard")!
-let logger = Logger(subsystem: "local.reoring.aquaskk-guard", category: "input-source")
+let preferences = UserDefaults(suiteName: "local.reoring.ime-guard")!
+let logger = Logger(subsystem: "local.reoring.ime-guard", category: "input-source")
+
+func isSkk(_ id: String) -> Bool {
+    skkPrefixes.contains { id.hasPrefix($0) }
+}
 
 func stringProperty(_ source: TISInputSource, _ key: CFString) -> String {
     guard let pointer = TISGetInputSourceProperty(source, key) else { return "" }
@@ -36,7 +52,7 @@ func status() {
     let result: [String: Any] = [
         "selected": currentID(), "secureInput": IsSecureEventInputEnabled(),
         "sessionAvailable": sessionAvailable(),
-        "lastAquaSKK": preferences.string(forKey: "lastSource") ?? "",
+        "lastSkk": preferences.string(forKey: "lastSource") ?? "",
         "sources": availableSources().filter { flag($0, kTISPropertyInputSourceIsSelectCapable) }
             .map { stringProperty($0, kTISPropertyInputSourceID) }
     ]
@@ -99,7 +115,7 @@ final class Guard {
             logger.info("source=\(selected, privacy: .public) app=\(appID, privacy: .public) event=\(reason, privacy: .public)")
             lastObserved = selected
         }
-        if selected.hasPrefix(aquaPrefix) {
+        if isSkk(selected) {
             if preferences.string(forKey: "lastSource") != selected {
                 preferences.set(selected, forKey: "lastSource")
             }
@@ -122,11 +138,14 @@ final class Guard {
             logger.error("restore paused after 3 attempts in 30s; switch apps to re-arm")
             return
         }
-        let preferred = preferences.string(forKey: "lastSource") ?? aquaPrefix + "Hiragana"
-        // Do not silently substitute a different mode if the remembered one was disabled.
-        guard preferred.hasPrefix(aquaPrefix), let target = source(preferred) else {
+        // Do not silently substitute a different mode if the remembered one was
+        // disabled; a default applies only while nothing has been remembered.
+        let remembered = preferences.string(forKey: "lastSource")
+            .flatMap { isSkk($0) ? $0 : nil }
+        let preferred = remembered ?? defaultSources.first { source($0) != nil }
+        guard let preferred, let target = source(preferred) else {
             attempted = true
-            logger.error("AquaSKK mode unavailable: \(preferred, privacy: .public); select AquaSKK manually to resume")
+            logger.error("no SKK mode available to restore; select one manually to resume")
             return
         }
         // Recheck immediately before the mutation; notifications may be delayed.
@@ -138,7 +157,7 @@ final class Guard {
         recentAttempts.append(now)
         let result = TISSelectInputSource(target)
         logger.info("restore ABC -> \(preferred, privacy: .public) app=\(appID, privacy: .public) status=\(result)")
-        // A failed selection is not retried until app activation or an AquaSKK selection.
+        // A failed selection is not retried until app activation or a SKK selection.
     }
 }
 
@@ -160,6 +179,6 @@ if args == ["--status"] {
     inputGuard.start()
     withExtendedLifetime(inputGuard) { app.run() }
 } else {
-    fputs("Usage: aquaskk-guard [--status | --select INPUT_SOURCE_ID]\n", stderr)
+    fputs("Usage: ime-guard [--status | --select INPUT_SOURCE_ID]\n", stderr)
     exit(2)
 }

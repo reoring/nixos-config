@@ -320,6 +320,16 @@ AquaSKK's Japanese-input shortcut is configured in `modules/shared/config/aquask
 Both `Ctrl+J` and `Ctrl+;` activate Japanese input. Home Manager installs this file
 at `~/Library/Application Support/AquaSKK/keymap.conf`; restart AquaSKK after changing it.
 
+macSKK comes from the `macskk` cask and is configured through its own settings
+window (入力メニュー → 設定…), which stores a plist inside
+`~/Library/Containers/net.mtgto.inputmethod.macSKK/`; nothing here manages it, unlike
+AquaSKK's `keymap.conf`. Enable it under System Settings → Keyboard → Input Sources:
+its modes are ordinary input sources (`net.mtgto.inputmethod.macSKK.hiragana`,
+`.katakana`, `.hankaku`, `.eisu`, `.ascii`), so `tools/ime-guard` restores whichever
+engine's mode you used last. Its default `Ctrl+J` mode switch needs the terminal to
+hand Control keys to the input method, which is what
+`tools/herdr-ime-updater/ime-control.patch` does for Herdr.
+
 #### Updating `omp` (the oh-my-pi coding agent)
 
 `omp` is built from the `oh-my-pi` flake input and installed through
@@ -345,7 +355,7 @@ branch carries unreleased commits, so `nix flake update` (all inputs) leaves the
 `omp` version untouched. Check [releases](https://github.com/can1357/oh-my-pi/releases)
 for the current tag, and confirm after activation with `omp --version`.
 
-#### Updating Herdr with the AquaSKK fix (Apple Silicon macOS)
+#### Updating Herdr with the IME Control-key fix (Apple Silicon macOS)
 
 `tools/herdr-ime-updater/` contains the source patch, updater, and replacement
 regression tests. The updater builds an official release tag with the IME fix;

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build and install Herdr releases with the local AquaSKK Control-key fix."""
+"""Build and install Herdr releases with the local IME Control-key fix."""
 import argparse
 import datetime
 import fcntl
@@ -21,7 +21,7 @@ import urllib.request
 REPOSITORY = "https://github.com/herdrdev/herdr-app.git"
 LATEST = "https://releases.herdr.dev/app/latest.json"
 TEST = "ime_activation_keys_precede_terminal_control_keys"
-PATCH = Path(__file__).resolve().with_name("aquaskk-control.patch")
+PATCH = Path(__file__).resolve().with_name("ime-control.patch")
 
 
 def run(*args, cwd=None, env=None, capture=False):

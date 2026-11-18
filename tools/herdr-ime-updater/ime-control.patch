@@ -6,7 +6,7 @@ index add7a27..e02edf2 100644
          is_input_method
      }
  }
-+// HERDR: an IME can use Control keys to enter composition (e.g. AquaSKK).
++// HERDR: an IME can use Control keys to enter composition (AquaSKK, macSKK).
 +// Keep Command/Function shortcuts out of AppKit's text handling.
 +fn is_ime_keystroke(keystroke: &Keystroke) -> bool {
 +    !keystroke.modifiers.platform
@@ -47,7 +47,7 @@ index add7a27..e02edf2 100644
 -                && !key_down_event.keystroke.modifiers.platform
 +            // Active IMEs also get printable and Control keys before app shortcuts:
 +            // printable keys may begin composition, and Control keys may switch
-+            // input mode before any marked text exists (e.g. AquaSKK's Ctrl+J).
++            // input mode before any marked text exists (AquaSKK/macSKK Ctrl+J).
 +            // Unhandled keys fall back through doCommandBySelector or run_callback.
 +            let is_ime_key = !is_composing
 +                && is_ime_keystroke(&key_down_event.keystroke)
